@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 
 import com.example.ozakharc.redditclient.App;
-import com.example.ozakharc.redditclient.ListActivityMVP;
+import com.example.ozakharc.redditclient.ListActivityMvp;
 import com.example.ozakharc.redditclient.model.api.APIClient;
 import com.example.ozakharc.redditclient.model.api.response.BaseResponse;
 import com.example.ozakharc.redditclient.model.api.response.Child;
@@ -17,15 +17,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListModel implements ListActivityMVP.Model {
+public class ListModel implements ListActivityMvp.Model {
 
     private List<NewsItem> newsItems = new ArrayList<>();
     private String after = "";
 
-    private ListActivityMVP.Presenter presenter;
+    private ListActivityMvp.Presenter presenter;
 
     @Override
-    public void setPresenter(ListActivityMVP.Presenter presenter) {
+    public void setPresenter(ListActivityMvp.Presenter presenter) {
         this.presenter = presenter;
     }
 

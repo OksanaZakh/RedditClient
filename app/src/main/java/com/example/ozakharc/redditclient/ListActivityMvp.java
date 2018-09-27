@@ -1,17 +1,19 @@
 package com.example.ozakharc.redditclient;
 
 import com.example.ozakharc.redditclient.model.NewsItem;
+import com.example.ozakharc.redditclient.presenter.MvpPresenter;
+import com.example.ozakharc.redditclient.view.MvpView;
 
-public interface ListActivityMVP {
-    interface View{
+public interface ListActivityMvp {
+
+    interface View extends MvpView {
         void loadData();
         void showError();
         void itemClicked();
         void showDetailedFragment();
     }
 
-    interface Presenter{
-        void SetView(ListActivityMVP.View view);
+    interface Presenter extends MvpPresenter<View> {
         void LoadData();
         void showNewItem(NewsItem newsItem);
         void showFailRequest();
@@ -20,7 +22,7 @@ public interface ListActivityMVP {
 
     interface Model{
         void getDataFromReddit();
-        void setPresenter(ListActivityMVP.Presenter presenter);
+        void setPresenter(ListActivityMvp.Presenter presenter);
     }
 
 }
