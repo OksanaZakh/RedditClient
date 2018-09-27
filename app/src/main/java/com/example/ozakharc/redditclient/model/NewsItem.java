@@ -1,39 +1,30 @@
+package com.example.ozakharc.redditclient.model;
 
-package com.example.ozakharc.redditclient.model.api.response;
+public class NewsItem {
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+    private String after;
 
-public class ChildData {
-
-
-    @SerializedName("title")
-    @Expose
     private String title;
 
-    @SerializedName("thumbnail")
-    @Expose
     private String thumbnail;
 
-    @SerializedName("num_comments")
-    @Expose
     private Integer numComments;
 
-    @SerializedName("author")
-    @Expose
     private String author;
 
-    @SerializedName("created_utc")
-    @Expose
     private Integer createdUtc;
 
-    @SerializedName("selftext")
-    @Expose
     private String selftext;
 
-    @SerializedName("preview")
-    @Expose
-    private Preview preview;
+    private String photoUrl;
+
+    public String getAfter() {
+        return after;
+    }
+
+    public void setAfter(String after) {
+        this.after = after;
+    }
 
     public String getTitle() {
         return title;
@@ -83,11 +74,11 @@ public class ChildData {
         this.selftext = selftext;
     }
 
-    public Preview getPreview() {
-        return preview;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPreview(Preview preview) {
-        this.preview = preview;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }

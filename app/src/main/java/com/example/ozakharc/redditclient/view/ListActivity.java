@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.example.ozakharc.redditclient.R;
 
-public class MainActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
