@@ -34,7 +34,7 @@ public class ListModel implements ListActivityMvp.Model {
 
     @Override
     public void getDataFromReddit(String after) {
-        Log.d(TAG, "getDataFromReddit: "+after);
+        Log.d(TAG, "getDataFromReddit: " + after);
         if (initConnection()) {
             Call<BaseResponse> call = APIClient.getApiService().getLatestNews(after);
             call.enqueue(new Callback<BaseResponse>() {
@@ -53,7 +53,7 @@ public class ListModel implements ListActivityMvp.Model {
                             newsItem.setSelftext(child.getChildDta().getSelftext());
                             newsItem.setThumbnail(child.getChildDta().getThumbnail());
                             newsItem.setTitle(child.getChildDta().getTitle());
-//                            newsItem.setPhotoUrl(child.getChildDta().getPreview().getImages().get(0).getSource().getUrl());
+                            newsItem.setPhotoUrl(getPhotoUrl(child));
                             newsItem.setAfter(after);
                             newsItems.add(newsItem);
                             presenter.showNewItem(newsItem);
@@ -75,7 +75,6 @@ public class ListModel implements ListActivityMvp.Model {
     }
 
     public void getDataFromReddit() {
-        Log.d(TAG, "getDataFromReddit: ");
         getDataFromReddit("");
     }
 
@@ -83,5 +82,17 @@ public class ListModel implements ListActivityMvp.Model {
         return ((ConnectivityManager) Objects.requireNonNull(App.getInstance().getSystemService
                 (Context.CONNECTIVITY_SERVICE))).getActiveNetworkInfo() != null;
     }
+
+    private String getPhotoUrl(Child child) {
+        String imageUrl = "";
+        try {
+            imageUrl = child.getChildDta().getPreview().getImages().get(0).getSource().getUrl();
+        } catch (Exception e) {
+            return imageUrl;
+        }
+        return imageUrl;
+    }
+
+
 
 }

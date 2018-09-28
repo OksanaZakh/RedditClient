@@ -12,7 +12,7 @@ public class NewsItem {
 
     private String author;
 
-    private Integer createdUtc;
+    private Long createdUtc;
 
     private String selftext;
 
@@ -58,11 +58,11 @@ public class NewsItem {
         this.author = author;
     }
 
-    public Integer getCreatedUtc() {
+    public long getCreatedUtc() {
         return createdUtc;
     }
 
-    public void setCreatedUtc(Integer createdUtc) {
+    public void setCreatedUtc(long createdUtc) {
         this.createdUtc = createdUtc;
     }
 

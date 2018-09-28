@@ -25,7 +25,7 @@ public class ChildData {
 
     @SerializedName("created_utc")
     @Expose
-    private Integer createdUtc;
+    private long createdUtc;
 
     @SerializedName("selftext")
     @Expose
@@ -67,11 +67,11 @@ public class ChildData {
         this.author = author;
     }
 
-    public Integer getCreatedUtc() {
+    public long getCreatedUtc() {
         return createdUtc;
     }
 
-    public void setCreatedUtc(Integer createdUtc) {
+    public void setCreatedUtc(long createdUtc) {
         this.createdUtc = createdUtc;
     }
 

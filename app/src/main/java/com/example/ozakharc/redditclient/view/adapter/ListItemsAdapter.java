@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.ozakharc.redditclient.R;
 import com.example.ozakharc.redditclient.model.NewsItem;
+import com.example.ozakharc.redditclient.utils.DataConverter;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int i) {
         holder.tvAuthor.setText(items.get(i).getAuthor());
-        holder.tvDate.setText(items.get(i).getCreatedUtc().toString());
+        holder.tvDate.setText(DataConverter.getStringData(items.get(i).getCreatedUtc()));
         holder.tvTitle.setText(items.get(i).getTitle());
         holder.tvThumbnail.setText(items.get(i).getThumbnail());
         holder.tvNumComments.setText(items.get(i).getNumComments().toString());
