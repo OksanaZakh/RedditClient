@@ -1,10 +1,12 @@
 package com.example.ozakharc.redditclient.view;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ozakharc.redditclient.ListActivityMvp;
@@ -21,14 +23,16 @@ import butterknife.ButterKnife;
 
 public class ListActivity extends AppCompatActivity implements ListActivityMvp.View{
 
+    private static final String TAG = "ListActivity";
+
     private ListPresenter presenter;
 
     @BindView(R.id.rvList)
     RecyclerView rvList;
 
     private ListItemsAdapter adapter;
-
     private List<NewsItem> newsItems;
+
 
 
     @Override
@@ -41,15 +45,9 @@ public class ListActivity extends AppCompatActivity implements ListActivityMvp.V
         presenter.attachView(this);
         presenter.viewIsReady();
 
-        newsItems = new ArrayList<>();
-
-        adapter=new ListItemsAdapter();
-        adapter.setData(newsItems);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
-        rvList.setLayoutManager(layoutManager);
-        rvList.setAdapter(adapter);
-
+        setDataToAdapter();
     }
+
 
     @Override
     public void showNoInternetConnection() {
@@ -84,5 +82,27 @@ public class ListActivity extends AppCompatActivity implements ListActivityMvp.V
         if (isFinishing()) {
             presenter.destroy();
         }
+    }
+
+    private void setDataToAdapter(){
+        newsItems = new ArrayList<>();
+        adapter=new ListItemsAdapter();
+        adapter.setData(newsItems);
+
+        rvList.setLayoutManager(new LinearLayoutManager(this));
+        rvList.setAdapter(adapter);
+        rvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    if (newsItems.size()>0) {
+                        presenter.getDataFromModel(newsItems.get(newsItems.size() - 1).getAfter());
+                        Log.d(TAG, "onScrollStateChanged: " + newsItems.get(newsItems.size() - 1).getAfter() + newsItems.size());
+                    }
+                }
+            }
+        });
     }
 }

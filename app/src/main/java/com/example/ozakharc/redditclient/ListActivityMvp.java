@@ -15,7 +15,7 @@ public interface ListActivityMvp {
     }
 
     interface Presenter extends MvpPresenter<View> {
-        void getDataFromModel();
+        void getDataFromModel(String after);
         void showNewItem(NewsItem newsItem);
         void showFailRequest();
         void showNoInternetConnection();
@@ -23,6 +23,7 @@ public interface ListActivityMvp {
 
     interface Model{
         void getDataFromReddit();
+        void getDataFromReddit(String after);
         void setPresenter(ListActivityMvp.Presenter presenter);
     }
 
