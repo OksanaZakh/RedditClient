@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.ozakharc.redditclient.App;
 import com.example.ozakharc.redditclient.R;
 import com.example.ozakharc.redditclient.model.NewsItem;
 import com.example.ozakharc.redditclient.utils.DataConverter;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,14 +37,16 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
         holder.tvAuthor.setText(items.get(i).getAuthor());
         holder.tvDate.setText(DataConverter.getStringData(items.get(i).getCreatedUtc()));
         holder.tvTitle.setText(items.get(i).getTitle());
-        holder.tvThumbnail.setText(items.get(i).getThumbnail());
+        Picasso.with(App.getInstance()).load(items.get(i).getThumbnail()).into(holder.tvThumbnail);
+        //holder.tvThumbnail.setText(items.get(i).getThumbnail());
+
         holder.tvNumComments.setText(items.get(i).getNumComments().toString());
 
         holder.itemView.setTag(i);
         holder.itemView.setOnClickListener(v -> {
             int position1 = (int) v.getTag();
             if (onItemClickListener != null)
-                onItemClickListener.onItemClick(v, position1, items.get(position1));
+                onItemClickListener.onItemClick(items.get(position1));
         });
     }
 

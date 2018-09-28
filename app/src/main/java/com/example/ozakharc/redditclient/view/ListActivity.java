@@ -1,5 +1,6 @@
 package com.example.ozakharc.redditclient.view;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,8 +8,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import com.example.ozakharc.redditclient.DetailedActivity;
 import com.example.ozakharc.redditclient.ListActivityMvp;
 import com.example.ozakharc.redditclient.R;
 import com.example.ozakharc.redditclient.model.NewsItem;
@@ -32,8 +35,6 @@ public class ListActivity extends AppCompatActivity implements ListActivityMvp.V
 
     private ListItemsAdapter adapter;
     private List<NewsItem> newsItems;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,16 +67,6 @@ public class ListActivity extends AppCompatActivity implements ListActivityMvp.V
     }
 
     @Override
-    public void itemClicked() {
-
-    }
-
-    @Override
-    public void showDetailedFragment() {
-
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.detachView();
@@ -88,6 +79,7 @@ public class ListActivity extends AppCompatActivity implements ListActivityMvp.V
         newsItems = new ArrayList<>();
         adapter=new ListItemsAdapter();
         adapter.setData(newsItems);
+        adapter.setOnItemClickListener(this);
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setAdapter(adapter);
@@ -104,5 +96,12 @@ public class ListActivity extends AppCompatActivity implements ListActivityMvp.V
                 }
             }
         });
+    }
+
+    @Override
+    public void onItemClick(NewsItem item) {
+        Intent activityIntent=new Intent(this, DetailedActivity.class);
+        activityIntent.putExtra("newsItem", item);
+        startActivity(activityIntent);
     }
 }

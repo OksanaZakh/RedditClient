@@ -6,5 +6,5 @@ import com.example.ozakharc.redditclient.model.NewsItem;
 
 
 public interface OnItemClickListener {
-    void onItemClick(View view, int position, NewsItem item);
+    void onItemClick(NewsItem item);
 }

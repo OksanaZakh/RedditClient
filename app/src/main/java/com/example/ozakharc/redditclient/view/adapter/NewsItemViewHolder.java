@@ -3,6 +3,7 @@ package com.example.ozakharc.redditclient.view.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ozakharc.redditclient.R;
@@ -21,8 +22,8 @@ public class NewsItemViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tvTitle)
     public TextView tvTitle;
 
-    @BindView(R.id.tvThumbnail)
-    public TextView tvThumbnail;
+    @BindView(R.id.ivThumbnail)
+    public ImageView tvThumbnail;
 
     @BindView(R.id.tvNumComments)
     public TextView tvNumComments;

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Reddit Client</string>
+
+    <string name="posted_by">Posted by:</string>
+    <string name="date">Date:</string>
+    <string name="comments">Comments</string>
 </resources>

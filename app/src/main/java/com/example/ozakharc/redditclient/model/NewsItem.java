@@ -1,6 +1,8 @@
 package com.example.ozakharc.redditclient.model;
 
-public class NewsItem {
+import java.io.Serializable;
+
+public class NewsItem implements Serializable {
 
     private String after;
 
