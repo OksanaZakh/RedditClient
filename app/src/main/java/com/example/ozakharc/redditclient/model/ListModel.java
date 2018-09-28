@@ -24,6 +24,8 @@ public class ListModel implements ListActivityMvp.Model {
 
     private ListActivityMvp.Presenter presenter;
 
+
+
     @Override
     public void setPresenter(ListActivityMvp.Presenter presenter) {
         this.presenter = presenter;
@@ -32,7 +34,7 @@ public class ListModel implements ListActivityMvp.Model {
     @Override
     public void getDataFromReddit() {
         if (initConnection()) {
-            Call<BaseResponse> call = APIClient.getApiService().getLatestNews(after);
+            Call<BaseResponse> call = APIClient.getApiService().getLatestNews();
             call.enqueue(new Callback<BaseResponse>() {
 
                 @Override
@@ -51,7 +53,7 @@ public class ListModel implements ListActivityMvp.Model {
                             newsItem.setSelftext(child.getChildDta().getSelftext());
                             newsItem.setThumbnail(child.getChildDta().getThumbnail());
                             newsItem.setTitle(child.getChildDta().getTitle());
-                            newsItem.setPhotoUrl(child.getChildDta().getPreview().getImages().get(0).getSource().getUrl());
+//                            newsItem.setPhotoUrl(child.getChildDta().getPreview().getImages().get(0).getSource().getUrl());
                             newsItems.add(newsItem);
                             presenter.showNewItem(newsItem);
                         }
@@ -71,7 +73,7 @@ public class ListModel implements ListActivityMvp.Model {
         }
     }
 
-    public boolean initConnection() {
+    private boolean initConnection() {
         return ((ConnectivityManager) Objects.requireNonNull(App.getInstance().getSystemService
                 (Context.CONNECTIVITY_SERVICE))).getActiveNetworkInfo() != null;
     }

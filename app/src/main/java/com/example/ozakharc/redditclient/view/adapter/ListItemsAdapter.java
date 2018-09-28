@@ -32,7 +32,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int i) {
         holder.tvAuthor.setText(items.get(i).getAuthor());
-        holder.tvDate.setText(items.get(i).getCreatedUtc());
+        holder.tvDate.setText(items.get(i).getCreatedUtc().toString());
         holder.tvTitle.setText(items.get(i).getTitle());
         holder.tvThumbnail.setText(items.get(i).getThumbnail());
         holder.tvNumComments.setText(items.get(i).getNumComments().toString());
