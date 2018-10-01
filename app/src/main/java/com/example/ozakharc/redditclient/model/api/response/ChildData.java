@@ -31,6 +31,18 @@ public class ChildData {
     @Expose
     private String selftext;
 
+    @SerializedName("url")
+    @Expose
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @SerializedName("preview")
     @Expose
     private Preview preview;

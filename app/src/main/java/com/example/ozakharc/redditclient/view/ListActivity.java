@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import com.example.ozakharc.redditclient.DetailedActivity;
 import com.example.ozakharc.redditclient.ListActivityMvp;
 import com.example.ozakharc.redditclient.R;
 import com.example.ozakharc.redditclient.model.NewsItem;

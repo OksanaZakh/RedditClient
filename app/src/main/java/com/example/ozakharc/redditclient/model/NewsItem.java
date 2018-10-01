@@ -20,6 +20,20 @@ public class NewsItem implements Serializable {
 
     private String photoUrl;
 
+    private String url;
+
+    public void setCreatedUtc(Long createdUtc) {
+        this.createdUtc = createdUtc;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public String getAfter() {
         return after;
     }

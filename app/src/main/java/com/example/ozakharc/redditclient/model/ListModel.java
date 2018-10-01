@@ -53,6 +53,7 @@ public class ListModel implements ListActivityMvp.Model {
                             newsItem.setTitle(child.getChildDta().getTitle());
                             newsItem.setPhotoUrl(getPhotoUrl(child));
                             newsItem.setAfter(after);
+                            newsItem.setUrl(child.getChildDta().getUrl());
                             presenter.addNewsItem(newsItem);
                         }
 

@@ -4,7 +4,7 @@ import com.example.ozakharc.redditclient.view.MvpView;
 
 public abstract class PresenterBase<T extends MvpView> implements MvpPresenter<T> {
 
-    private T view;
+    protected T view;
 
     @Override
     public void attachView(T mvpView) {

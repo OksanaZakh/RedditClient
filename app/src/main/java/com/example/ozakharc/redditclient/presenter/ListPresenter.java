@@ -16,7 +16,7 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
 
 
     private ListModel model;
-    private ListActivityMvp.View view;
+    //private ListActivityMvp.View view;
     private List<NewsItem> newsItems;
 
 
