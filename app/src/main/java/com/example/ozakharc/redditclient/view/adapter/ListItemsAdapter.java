@@ -38,7 +38,6 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
         holder.tvDate.setText(DataConverter.getStringData(items.get(i).getCreatedUtc()));
         holder.tvTitle.setText(items.get(i).getTitle());
         Picasso.with(App.getInstance()).load(items.get(i).getThumbnail()).into(holder.tvThumbnail);
-        //holder.tvThumbnail.setText(items.get(i).getThumbnail());
 
         holder.tvNumComments.setText(items.get(i).getNumComments().toString());
 
@@ -52,7 +51,9 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
 
     @Override
     public int getItemCount() {
-        return items.size();
+        if (items!=null) {
+            return items.size();
+        }else return 0;
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

@@ -5,19 +5,22 @@ import com.example.ozakharc.redditclient.presenter.MvpPresenter;
 import com.example.ozakharc.redditclient.view.MvpView;
 import com.example.ozakharc.redditclient.view.adapter.OnItemClickListener;
 
+import java.util.List;
+
 public interface ListActivityMvp {
 
     interface View extends MvpView, OnItemClickListener {
-        void showError();
-        void showNoInternetConnection();
-        void updateList(NewsItem newsItem);
+        void showMessage(String message);
+        void startNewActivity(NewsItem item);
+        void updateList(List<NewsItem> newsItems);
     }
 
     interface Presenter extends MvpPresenter<View> {
-        void getDataFromModel(String after);
-        void showNewItem(NewsItem newsItem);
+        void getDataFromModel();
         void showFailRequest();
+        void onItemClick(NewsItem item);
         void showNoInternetConnection();
+        void addNewsItem(NewsItem item);
     }
 
     interface Model{

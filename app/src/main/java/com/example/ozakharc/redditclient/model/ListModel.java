@@ -20,8 +20,6 @@ import retrofit2.Response;
 
 public class ListModel implements ListActivityMvp.Model {
 
-    private List<NewsItem> newsItems = new ArrayList<>();
-
     private ListActivityMvp.Presenter presenter;
 
     private static final String TAG = "ListModel";
@@ -55,8 +53,7 @@ public class ListModel implements ListActivityMvp.Model {
                             newsItem.setTitle(child.getChildDta().getTitle());
                             newsItem.setPhotoUrl(getPhotoUrl(child));
                             newsItem.setAfter(after);
-                            newsItems.add(newsItem);
-                            presenter.showNewItem(newsItem);
+                            presenter.addNewsItem(newsItem);
                         }
 
                     } else {
