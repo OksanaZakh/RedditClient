@@ -82,6 +82,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         dialog.setContentView(R.layout.image_dialog);
         ImageView image = dialog.findViewById(R.id.image);
         Picasso.with(this).load(imageUrl).into(image);
+        image.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
 
     }
