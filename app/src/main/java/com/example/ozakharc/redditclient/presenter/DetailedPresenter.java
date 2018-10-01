@@ -5,8 +5,6 @@ import com.example.ozakharc.redditclient.model.NewsItem;
 
 public class DetailedPresenter extends PresenterBase<DetailedActivityMvp.View> implements DetailedActivityMvp.Presenter {
 
-    private static final String TAG = "DetailedPresenter";
-
     private NewsItem item;
 
 
@@ -16,20 +14,16 @@ public class DetailedPresenter extends PresenterBase<DetailedActivityMvp.View> i
 
     @Override
     public void onImageClicked() {
-        if(!item.getPhotoUrl().isEmpty()){
+        if (item != null && isViewAttached()) {
             view.showDialog(item.getPhotoUrl());
         }
     }
 
     @Override
     public void onLinkClicked() {
-        if(!item.getUrl().isEmpty()){
+        if (item != null && isViewAttached()) {
             view.goToWebPage(item.getUrl());
         }
     }
 
-    @Override
-    public void viewIsReady() {
-
-    }
 }

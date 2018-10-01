@@ -16,12 +16,12 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
 
 
     private ListModel model;
-    //private ListActivityMvp.View view;
     private List<NewsItem> newsItems;
 
 
     @Override
     public void getDataFromModel() {
+        view.showProgressBar();
         if (newsItems.size() > 0) {
             model.getDataFromReddit(newsItems.get(newsItems.size() - 1).getAfter());
             Log.d(TAG, "onScrollStateChanged: " + newsItems.get(newsItems.size() - 1).getAfter() + newsItems.size());
@@ -33,24 +33,25 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
 
     @Override
     public void onItemClick(NewsItem item){
-        if(item!=null) {
+        if(item!=null&&isViewAttached()) {
             view.startNewActivity(item);
         }
     }
 
     @Override
     public void showFailRequest() {
-        view.showMessage(Constants.ERROR_MESSAGE);
+        if(isViewAttached()) {
+            view.hideProgressBar();
+            view.showMessage(Constants.ERROR_MESSAGE);
+        }
     }
 
     @Override
     public void showNoInternetConnection() {
-        view.showMessage(Constants.NO_INTERNET_MESSAGE);
-    }
-
-    @Override
-    public void attachView(ListActivityMvp.View mvpView) {
-        this.view=mvpView;
+        if(isViewAttached()) {
+            view.hideProgressBar();
+            view.showMessage(Constants.NO_INTERNET_MESSAGE);
+        }
     }
 
     @Override
@@ -64,6 +65,9 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
     @Override
     public void addNewsItem(NewsItem item){
         newsItems.add(item);
-        view.updateList(newsItems);
+        if(isViewAttached()) {
+            view.hideProgressBar();
+            view.updateList(newsItems);
+        }
     }
 }

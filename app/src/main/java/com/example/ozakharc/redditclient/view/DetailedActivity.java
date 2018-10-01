@@ -14,7 +14,7 @@ import com.example.ozakharc.redditclient.R;
 import com.example.ozakharc.redditclient.model.NewsItem;
 import com.example.ozakharc.redditclient.presenter.DetailedPresenter;
 import com.example.ozakharc.redditclient.utils.Constants;
-import com.example.ozakharc.redditclient.utils.DataConverter;
+import com.example.ozakharc.redditclient.utils.DateConverter;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -54,26 +54,23 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         NewsItem item = (NewsItem) getIntent().getExtras().get(Constants.NEWS_ITEM);
 
         presenter = new DetailedPresenter();
-
         presenter.attachView(this);
-        presenter.viewIsReady();
         presenter.setNewsItem(item);
 
         Picasso.with(this).load(item.getThumbnail()).into(ivThumbnail);
         ivThumbnail.setOnClickListener(v -> presenter.onImageClicked());
 
         tvAuthor.setText(item.getAuthor());
-        tvDate.setText(DataConverter.getStringData(item.getCreatedUtc()));
+        tvDate.setText(DateConverter.getStringData(item.getCreatedUtc()));
         tvTitle.setText(item.getTitle());
         tvDescription.setText(item.getSelftext());
-
         tvLink.setText(item.getUrl());
         tvLink.setOnClickListener(v -> presenter.onLinkClicked());
+
         toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-
     }
 
     @Override
@@ -91,5 +88,14 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
     public void goToWebPage(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
+        if (isFinishing()) {
+            presenter=null;
+        }
     }
 }

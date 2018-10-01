@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.ozakharc.redditclient.ListActivityMvp;
@@ -25,17 +27,20 @@ public class ListActivity extends AppCompatActivity implements ListActivityMvp.V
 
     private static final String TAG = "ListActivity";
 
-    private ListPresenter presenter;
+    private ListActivityMvp.Presenter presenter;
 
     @BindView(R.id.rvList)
     RecyclerView rvList;
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     private ListItemsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_list);
         ButterKnife.bind(this);
 
         this.presenter = new ListPresenter();
@@ -61,7 +66,7 @@ public class ListActivity extends AppCompatActivity implements ListActivityMvp.V
         super.onDestroy();
         presenter.detachView();
         if (isFinishing()) {
-            presenter.destroy();
+            presenter=null;
         }
     }
 
@@ -94,5 +99,14 @@ public class ListActivity extends AppCompatActivity implements ListActivityMvp.V
         startActivity(activityIntent);
     }
 
+    @Override
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar(){
+        progressBar.setVisibility(View.GONE);
+    }
 
 }

@@ -24,8 +24,5 @@ public abstract class PresenterBase<T extends MvpView> implements MvpPresenter<T
         return view != null;
     }
 
-    @Override
-    public void destroy() {
 
-    }
 }

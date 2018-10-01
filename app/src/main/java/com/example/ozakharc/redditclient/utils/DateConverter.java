@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DataConverter {
+public class DateConverter {
 
     public static String getStringData(long utc){
         Date date = new Date(utc*1000);

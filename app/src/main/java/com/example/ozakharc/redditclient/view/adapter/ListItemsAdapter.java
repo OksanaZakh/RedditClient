@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.example.ozakharc.redditclient.App;
 import com.example.ozakharc.redditclient.R;
 import com.example.ozakharc.redditclient.model.NewsItem;
-import com.example.ozakharc.redditclient.utils.DataConverter;
+import com.example.ozakharc.redditclient.utils.DateConverter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,10 +35,15 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int i) {
         holder.tvAuthor.setText(items.get(i).getAuthor());
-        holder.tvDate.setText(DataConverter.getStringData(items.get(i).getCreatedUtc()));
+        holder.tvDate.setText(DateConverter.getStringData(items.get(i).getCreatedUtc()));
         holder.tvTitle.setText(items.get(i).getTitle());
-        Picasso.with(App.getInstance()).load(items.get(i).getThumbnail()).into(holder.tvThumbnail);
 
+        if(items.get(i).getThumbnail().contains("https://")) {
+            holder.tvThumbnail.setVisibility(View.VISIBLE);
+            Picasso.with(App.getInstance()).load(items.get(i).getThumbnail()).into(holder.tvThumbnail);
+        }else{
+            holder.tvThumbnail.setVisibility(View.GONE);
+        }
         holder.tvNumComments.setText(items.get(i).getNumComments().toString());
 
         holder.itemView.setTag(i);
@@ -59,5 +64,4 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
-
 }
