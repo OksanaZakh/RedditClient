@@ -26,4 +26,15 @@ public class DetailedPresenter extends PresenterBase<DetailedActivityMvp.View> i
         }
     }
 
+    @Override
+    public void onBackClicked() {
+        view.backButtonClicked();
+    }
+
+    @Override
+    public void onDialogImageClicked() {
+        if(view.isDialogVisible()){
+            view.dismissDialog();
+        }
+    }
 }

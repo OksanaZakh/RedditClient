@@ -10,6 +10,12 @@ public interface DetailedActivityMvp {
         void showDialog(String imageUrl);
 
         void goToWebPage(String url);
+
+        void backButtonClicked();
+
+        void dismissDialog();
+
+        boolean isDialogVisible();
     }
 
     interface Presenter {
@@ -23,5 +29,9 @@ public interface DetailedActivityMvp {
         void attachView(View mvpView);
 
         void detachView();
+
+        void onBackClicked();
+
+        void onDialogImageClicked();
     }
 }

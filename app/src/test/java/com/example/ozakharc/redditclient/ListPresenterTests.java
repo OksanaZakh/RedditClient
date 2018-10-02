@@ -1,11 +1,15 @@
 package com.example.ozakharc.redditclient;
 
+import com.example.ozakharc.redditclient.model.NewsItem;
 import com.example.ozakharc.redditclient.presenter.ListPresenter;
+import com.example.ozakharc.redditclient.presenter.PresenterBase;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class ListPresenterTests {
 
@@ -23,10 +27,10 @@ public class ListPresenterTests {
 
     @Test
     public void testOnItemClick(){
-        mockedView.onItemClick(null);
-        presenter.onItemClick(null);
-
-
+        NewsItem item=new NewsItem();
+        mockedView.onItemClick(item);
+        presenter.onItemClick(item);
+        verify(mockedView, times(1)).startNewActivity(item);
     }
 
 

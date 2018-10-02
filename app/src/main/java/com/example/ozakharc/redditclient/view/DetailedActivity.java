@@ -44,6 +44,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
     TextView tvLink;
 
     DetailedActivityMvp.Presenter presenter;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +71,16 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        toolbar.setNavigationOnClickListener(v -> presenter.onBackClicked());
     }
 
     @Override
     public void showDialog(String imageUrl) {
-        final Dialog dialog = new Dialog(this);
+        dialog = new Dialog(this);
         dialog.setContentView(R.layout.image_dialog);
         ImageView image = dialog.findViewById(R.id.image);
         Picasso.with(this).load(imageUrl).into(image);
-        image.setOnClickListener(v -> dialog.dismiss());
+        image.setOnClickListener(v -> presenter.onDialogImageClicked());
         dialog.show();
 
     }
@@ -95,7 +96,24 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         super.onDestroy();
         presenter.detachView();
         if (isFinishing()) {
-            presenter=null;
+            presenter = null;
         }
+    }
+
+    @Override
+    public void backButtonClicked() {
+        onBackPressed();
+    }
+
+    @Override
+    public void dismissDialog() {
+        dialog.dismiss();
+        dialog = null;
+    }
+
+
+    @Override
+    public boolean isDialogVisible() {
+        return dialog != null;
     }
 }

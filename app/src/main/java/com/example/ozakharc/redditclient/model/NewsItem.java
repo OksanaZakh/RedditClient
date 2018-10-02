@@ -22,10 +22,6 @@ public class NewsItem implements Serializable {
 
     private String url;
 
-    public void setCreatedUtc(Long createdUtc) {
-        this.createdUtc = createdUtc;
-    }
-
     public String getUrl() {
         return url;
     }
