@@ -1,7 +1,6 @@
 package com.example.ozakharc.redditclient;
 
 import com.example.ozakharc.redditclient.model.NewsItem;
-import com.example.ozakharc.redditclient.presenter.MvpPresenter;
 import com.example.ozakharc.redditclient.view.MvpView;
 
 public interface DetailedActivityMvp {
@@ -13,12 +12,16 @@ public interface DetailedActivityMvp {
         void goToWebPage(String url);
     }
 
-    interface Presenter extends MvpPresenter<DetailedActivityMvp.View> {
+    interface Presenter {
 
         void onImageClicked();
 
         void onLinkClicked();
 
         void setNewsItem(NewsItem item);
+
+        void attachView(View mvpView);
+
+        void detachView();
     }
 }

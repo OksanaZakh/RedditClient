@@ -23,9 +23,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListActivity extends AppCompatActivity implements ListActivityMvp.View {
+public class MainActivity extends AppCompatActivity implements ListActivityMvp.View {
 
-    private static final String TAG = "ListActivity";
+    private static final String TAG = "MainActivity";
 
     private ListActivityMvp.Presenter presenter;
 

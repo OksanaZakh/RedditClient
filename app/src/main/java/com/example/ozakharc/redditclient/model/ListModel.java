@@ -10,7 +10,6 @@ import com.example.ozakharc.redditclient.model.api.APIClient;
 import com.example.ozakharc.redditclient.model.api.response.BaseResponse;
 import com.example.ozakharc.redditclient.model.api.response.Child;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +23,9 @@ public class ListModel implements ListActivityMvp.Model {
 
     private static final String TAG = "ListModel";
 
+    private String after = "";
+
+    private int limit = 20;
 
     @Override
     public void setPresenter(ListActivityMvp.Presenter presenter) {
@@ -31,10 +33,10 @@ public class ListModel implements ListActivityMvp.Model {
     }
 
     @Override
-    public void getDataFromReddit(String after) {
+    public void getDataFromReddit() {
         Log.d(TAG, "getDataFromReddit: " + after);
         if (initConnection()) {
-            Call<BaseResponse> call = APIClient.getApiService().getLatestNews(after);
+            Call<BaseResponse> call = APIClient.getApiService().getLatestNews(after, limit);
             call.enqueue(new Callback<BaseResponse>() {
 
                 @Override
@@ -72,10 +74,6 @@ public class ListModel implements ListActivityMvp.Model {
         }
     }
 
-    public void getDataFromReddit() {
-        getDataFromReddit("");
-    }
-
     private boolean initConnection() {
         return ((ConnectivityManager) Objects.requireNonNull(App.getInstance().getSystemService
                 (Context.CONNECTIVITY_SERVICE))).getActiveNetworkInfo() != null;
@@ -91,6 +89,11 @@ public class ListModel implements ListActivityMvp.Model {
         return imageUrl;
     }
 
+    public void setAfter(String after) {
+        this.after = after;
+    }
 
-
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
 }

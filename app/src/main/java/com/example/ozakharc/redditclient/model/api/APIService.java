@@ -10,5 +10,5 @@ import retrofit2.http.Query;
 public interface APIService {
 
     @GET(Constants.URL)
-    Call<BaseResponse> getLatestNews(@Query(Constants.QUERY) String after);
+    Call<BaseResponse> getLatestNews(@Query(Constants.QUERY_AFTER) String after, @Query(Constants.QUERY_LIMIT) int limit);
 }

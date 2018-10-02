@@ -1,7 +1,6 @@
 package com.example.ozakharc.redditclient;
 
 import com.example.ozakharc.redditclient.model.NewsItem;
-import com.example.ozakharc.redditclient.presenter.MvpPresenter;
 import com.example.ozakharc.redditclient.view.MvpView;
 import com.example.ozakharc.redditclient.view.adapter.OnItemClickListener;
 
@@ -22,7 +21,7 @@ public interface ListActivityMvp {
         void hideProgressBar();
     }
 
-    interface Presenter extends MvpPresenter<View> {
+    interface Presenter {
 
         void getDataFromModel();
 
@@ -36,15 +35,22 @@ public interface ListActivityMvp {
 
         void viewIsReady();
 
+        void attachView(View mvpView);
+
+        void detachView();
+
     }
 
     interface Model {
 
         void getDataFromReddit();
 
-        void getDataFromReddit(String after);
-
         void setPresenter(ListActivityMvp.Presenter presenter);
+
+        public void setAfter(String after);
+
+        public void setLimit(int limit);
+
     }
 
 }

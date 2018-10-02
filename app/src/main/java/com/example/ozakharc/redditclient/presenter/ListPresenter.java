@@ -23,7 +23,8 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
     public void getDataFromModel() {
         view.showProgressBar();
         if (newsItems.size() > 0) {
-            model.getDataFromReddit(newsItems.get(newsItems.size() - 1).getAfter());
+            model.setAfter(newsItems.get(newsItems.size() - 1).getAfter());
+            model.getDataFromReddit();
             Log.d(TAG, "onScrollStateChanged: " + newsItems.get(newsItems.size() - 1).getAfter() + newsItems.size());
         }
         else{
@@ -33,7 +34,7 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
 
     @Override
     public void onItemClick(NewsItem item){
-        if(item!=null&&isViewAttached()) {
+        if(isViewAttached()) {
             view.startNewActivity(item);
         }
     }
@@ -59,6 +60,8 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
         newsItems=new ArrayList<>();
         this.model = new ListModel();
         model.setPresenter(this);
+        model.setAfter("");
+        model.setLimit(20);
         model.getDataFromReddit();
     }
 
