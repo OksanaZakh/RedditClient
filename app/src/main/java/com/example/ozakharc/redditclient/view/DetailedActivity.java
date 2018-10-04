@@ -62,7 +62,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         ivThumbnail.setOnClickListener(v -> presenter.onImageClicked());
 
         tvAuthor.setText(item.getAuthor());
-        tvDate.setText(DateConverter.getStringData(item.getCreatedUtc()));
+        tvDate.setText(DateConverter.getStringDate(item.getCreatedUtc()));
         tvTitle.setText(item.getTitle());
         tvDescription.setText(item.getSelftext());
         tvLink.setText(item.getUrl());

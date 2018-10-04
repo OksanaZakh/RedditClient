@@ -14,10 +14,16 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
 
     private static final String TAG = "ListPresenter";
 
-
-    private ListModel model;
+    private ListActivityMvp.Model model;
     private List<NewsItem> newsItems;
 
+    public ListPresenter(ListActivityMvp.Model model, List<NewsItem> newsItems) {
+        this.model = model;
+        this.newsItems = newsItems;
+    }
+
+    public ListPresenter() {
+    }
 
     @Override
     public void getDataFromModel() {
@@ -25,23 +31,19 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
         if (newsItems.size() > 0) {
             model.setAfter(newsItems.get(newsItems.size() - 1).getAfter());
             model.getDataFromReddit();
-            Log.d(TAG, "onScrollStateChanged: " + newsItems.get(newsItems.size() - 1).getAfter() + newsItems.size());
-        }
-        else{
+        } else {
             model.getDataFromReddit();
         }
     }
 
     @Override
-    public void onItemClick(NewsItem item){
-        if(isViewAttached()) {
-            view.startNewActivity(item);
-        }
+    public void onItemClick(NewsItem item) {
+        view.startNewActivity(item);
     }
 
     @Override
     public void showFailRequest() {
-        if(isViewAttached()) {
+        if (isViewAttached()) {
             view.hideProgressBar();
             view.showMessage(Constants.ERROR_MESSAGE);
         }
@@ -49,7 +51,7 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
 
     @Override
     public void showNoInternetConnection() {
-        if(isViewAttached()) {
+        if (isViewAttached()) {
             view.hideProgressBar();
             view.showMessage(Constants.NO_INTERNET_MESSAGE);
         }
@@ -57,18 +59,18 @@ public class ListPresenter extends PresenterBase<ListActivityMvp.View> implement
 
     @Override
     public void viewIsReady() {
-        newsItems=new ArrayList<>();
+        newsItems = new ArrayList<>();
         this.model = new ListModel();
         model.setPresenter(this);
         model.setAfter("");
         model.setLimit(20);
-        model.getDataFromReddit();
+        getDataFromModel();
     }
 
     @Override
-    public void addNewsItem(NewsItem item){
+    public void addNewsItem(NewsItem item) {
         newsItems.add(item);
-        if(isViewAttached()) {
+        if (isViewAttached()) {
             view.hideProgressBar();
             view.updateList(newsItems);
         }

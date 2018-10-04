@@ -35,7 +35,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int i) {
         holder.tvAuthor.setText(items.get(i).getAuthor());
-        holder.tvDate.setText(DateConverter.getStringData(items.get(i).getCreatedUtc()));
+        holder.tvDate.setText(DateConverter.getStringDate(items.get(i).getCreatedUtc()));
         holder.tvTitle.setText(items.get(i).getTitle());
 
         if(items.get(i).getThumbnail().contains("https://")) {

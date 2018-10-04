@@ -18,7 +18,7 @@ public abstract class PresenterBase<T extends MvpView> {
         return view;
     }
 
-    protected boolean isViewAttached() {
+    public boolean isViewAttached() {
         return view != null;
     }
 }

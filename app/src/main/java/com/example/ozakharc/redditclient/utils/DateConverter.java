@@ -6,7 +6,7 @@ import java.util.Locale;
 
 public class DateConverter {
 
-    public static String getStringData(long utc){
+    public static String getStringDate(long utc){
         Date date = new Date(utc*1000);
         SimpleDateFormat format=new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         return format.format(date);
