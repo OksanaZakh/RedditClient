@@ -9,9 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ozakharc.redditclient.DetailedActivityMvp;
+import com.example.ozakharc.redditclient.DetailedActivityContract;
 import com.example.ozakharc.redditclient.R;
-import com.example.ozakharc.redditclient.model.NewsItem;
+import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.presenter.DetailedPresenter;
 import com.example.ozakharc.redditclient.utils.Constants;
 import com.example.ozakharc.redditclient.utils.DateConverter;
@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailedActivity extends AppCompatActivity implements DetailedActivityMvp.View {
+public class DetailedActivity extends AppCompatActivity implements DetailedActivityContract.View {
 
     @BindView(R.id.ivPhoto)
     ImageView ivThumbnail;
@@ -43,7 +43,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
     @BindView(R.id.tvLink)
     TextView tvLink;
 
-    DetailedActivityMvp.Presenter presenter;
+    DetailedActivityContract.Presenter presenter;
     Dialog dialog;
 
     @Override

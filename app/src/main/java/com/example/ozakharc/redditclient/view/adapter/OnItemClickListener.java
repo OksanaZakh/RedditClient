@@ -1,8 +1,6 @@
 package com.example.ozakharc.redditclient.view.adapter;
 
-import android.view.View;
-
-import com.example.ozakharc.redditclient.model.NewsItem;
+import com.example.ozakharc.redditclient.api.NewsItem;
 
 
 public interface OnItemClickListener {

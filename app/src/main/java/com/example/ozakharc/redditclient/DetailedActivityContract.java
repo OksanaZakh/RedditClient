@@ -1,9 +1,9 @@
 package com.example.ozakharc.redditclient;
 
-import com.example.ozakharc.redditclient.model.NewsItem;
+import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.view.MvpView;
 
-public interface DetailedActivityMvp {
+public interface DetailedActivityContract {
 
     interface View extends MvpView {
 

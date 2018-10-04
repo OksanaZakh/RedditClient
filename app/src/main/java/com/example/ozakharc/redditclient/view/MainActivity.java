@@ -11,10 +11,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.ozakharc.redditclient.ListActivityMvp;
+import com.example.ozakharc.redditclient.MainActivityContract;
 import com.example.ozakharc.redditclient.R;
-import com.example.ozakharc.redditclient.model.NewsItem;
-import com.example.ozakharc.redditclient.presenter.ListPresenter;
+import com.example.ozakharc.redditclient.api.NewsItem;
+import com.example.ozakharc.redditclient.presenter.MainPresenter;
 import com.example.ozakharc.redditclient.utils.Constants;
 import com.example.ozakharc.redditclient.view.adapter.ListItemsAdapter;
 
@@ -23,11 +23,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements ListActivityMvp.View {
+public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
 
-    private static final String TAG = "MainActivity";
-
-    private ListActivityMvp.Presenter presenter;
+    private MainActivityContract.Presenter presenter;
 
     @BindView(R.id.rvList)
     RecyclerView rvList;
@@ -43,21 +41,21 @@ public class MainActivity extends AppCompatActivity implements ListActivityMvp.V
         setContentView(R.layout.activity_list);
         ButterKnife.bind(this);
 
-        this.presenter = new ListPresenter();
+        this.presenter = new MainPresenter();
         presenter.attachView(this);
-        presenter.viewIsReady();
+        presenter.loadData();
 
         setDataToAdapter();
     }
 
     @Override
-    public void updateList(List<NewsItem> newsItems) {
+    public void showData(List<NewsItem> newsItems) {
         adapter.setData(newsItems);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void showMessage(String message) {
+    public void showAlert(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements ListActivityMvp.V
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1)) {
-                    presenter.getDataFromModel();
+                    presenter.loadData();
                 }
             }
         });

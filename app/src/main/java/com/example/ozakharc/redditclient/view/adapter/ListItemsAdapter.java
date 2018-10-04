@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.ozakharc.redditclient.App;
 import com.example.ozakharc.redditclient.R;
-import com.example.ozakharc.redditclient.model.NewsItem;
+import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.utils.DateConverter;
 import com.squareup.picasso.Picasso;
 

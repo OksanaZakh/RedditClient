@@ -1,4 +1,4 @@
-package com.example.ozakharc.redditclient.model;
+package com.example.ozakharc.redditclient.api;
 
 import java.io.Serializable;
 

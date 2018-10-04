@@ -1,6 +1,6 @@
-package com.example.ozakharc.redditclient.model.api;
+package com.example.ozakharc.redditclient.api;
 
-import com.example.ozakharc.redditclient.model.api.response.BaseResponse;
+import com.example.ozakharc.redditclient.api.response.BaseResponse;
 import com.example.ozakharc.redditclient.utils.Constants;
 
 import retrofit2.Call;

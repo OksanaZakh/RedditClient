@@ -1,7 +1,6 @@
 
-package com.example.ozakharc.redditclient.model.api.response;
+package com.example.ozakharc.redditclient.api.response;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ChildData {

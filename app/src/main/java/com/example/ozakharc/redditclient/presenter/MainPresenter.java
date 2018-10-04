@@ -1,15 +1,19 @@
-package com.example.ozakharc.redditclient.model;
+package com.example.ozakharc.redditclient.presenter;
+
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
 import com.example.ozakharc.redditclient.App;
-import com.example.ozakharc.redditclient.ListActivityMvp;
-import com.example.ozakharc.redditclient.model.api.APIClient;
-import com.example.ozakharc.redditclient.model.api.response.BaseResponse;
-import com.example.ozakharc.redditclient.model.api.response.Child;
+import com.example.ozakharc.redditclient.MainActivityContract;
+import com.example.ozakharc.redditclient.api.NetworkManagerImpl;
+import com.example.ozakharc.redditclient.api.NewsItem;
+import com.example.ozakharc.redditclient.api.response.BaseResponse;
+import com.example.ozakharc.redditclient.api.response.Child;
+import com.example.ozakharc.redditclient.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,26 +21,61 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListModel implements ListActivityMvp.Model {
+public class MainPresenter extends PresenterBase<MainActivityContract.View> implements MainActivityContract.Presenter {
 
-    private ListActivityMvp.Presenter presenter;
-
-    private static final String TAG = "ListModel";
-
+    private List<NewsItem> newsItems;
     private String after = "";
-
     private int limit = 20;
 
-    @Override
-    public void setPresenter(ListActivityMvp.Presenter presenter) {
-        this.presenter = presenter;
+    public MainPresenter() {
+        newsItems = new ArrayList<>();
     }
 
     @Override
-    public void getDataFromReddit() {
-        Log.d(TAG, "getDataFromReddit: " + after);
+    public void loadData() {
+        view.showProgressBar();
+        if (newsItems.size() > 0) {
+            setAfter(newsItems.get(newsItems.size() - 1).getAfter());
+            getDataFromNetwork();
+        } else {
+            getDataFromNetwork();
+        }
+    }
+
+    @Override
+    public void onItemClick(NewsItem item) {
+        view.startNewActivity(item);
+    }
+
+    @Override
+    public void showFailRequest() {
+        if (isViewAttached()) {
+            view.hideProgressBar();
+            view.showAlert(Constants.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void showNoInternetConnection() {
+        if (isViewAttached()) {
+            view.hideProgressBar();
+            view.showAlert(Constants.NO_INTERNET_MESSAGE);
+        }
+    }
+
+    @Override
+    public void addNewsItem(NewsItem item) {
+        newsItems.add(item);
+        if (isViewAttached()) {
+            view.hideProgressBar();
+            view.showData(newsItems);
+        }
+    }
+
+    @Override
+    public void getDataFromNetwork() {
         if (initConnection()) {
-            Call<BaseResponse> call = APIClient.getApiService().getLatestNews(after, limit);
+            Call<BaseResponse> call = NetworkManagerImpl.getInstance().getApiService().getLatestNews(after, limit);
             call.enqueue(new Callback<BaseResponse>() {
 
                 @Override
@@ -56,21 +95,21 @@ public class ListModel implements ListActivityMvp.Model {
                             newsItem.setPhotoUrl(getPhotoUrl(child));
                             newsItem.setAfter(after);
                             newsItem.setUrl(child.getChildDta().getUrl());
-                            presenter.addNewsItem(newsItem);
+                            addNewsItem(newsItem);
                         }
 
                     } else {
-                        presenter.showFailRequest();
+                        showFailRequest();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<BaseResponse> call, Throwable t) {
-                    presenter.showFailRequest();
+                    showFailRequest();
                 }
             });
         } else {
-            presenter.showNoInternetConnection();
+            showNoInternetConnection();
         }
     }
 
@@ -96,4 +135,5 @@ public class ListModel implements ListActivityMvp.Model {
     public void setLimit(int limit) {
         this.limit = limit;
     }
+
 }

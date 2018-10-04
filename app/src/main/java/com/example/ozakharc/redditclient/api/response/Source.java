@@ -1,4 +1,4 @@
-package com.example.ozakharc.redditclient.model.api.response;
+package com.example.ozakharc.redditclient.api.response;
 
 public class Source {
 
