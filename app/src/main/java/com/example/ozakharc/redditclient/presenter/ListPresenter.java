@@ -1,6 +1,5 @@
 package com.example.ozakharc.redditclient.presenter;
 
-import android.util.Log;
 
 import com.example.ozakharc.redditclient.ListActivityMvp;
 import com.example.ozakharc.redditclient.model.ListModel;

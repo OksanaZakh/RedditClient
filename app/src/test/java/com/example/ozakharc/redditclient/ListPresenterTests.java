@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -27,11 +29,14 @@ public class ListPresenterTests {
     private ListPresenter presenter;
     private List<NewsItem> items;
 
+    @Captor
+    private ArgumentCaptor<NewsItem> captor;
+
     @Before
     public void setup() {
         mockedModel = mock(ListActivityMvp.Model.class);
         mockedView = mock(ListActivityMvp.View.class);
-        items=new ArrayList<>();
+        items = new ArrayList<>();
         presenter = new ListPresenter(mockedModel, items);
         presenter.attachView(mockedView);
     }
@@ -59,7 +64,7 @@ public class ListPresenterTests {
     }
 
     @Test
-    public void showNoInternetConnection_whenViewIsAttached(){
+    public void showNoInternetConnection_whenViewIsAttached() {
         String correctMessage = "Bad internet connection, can't download a data from Reddit!";
         presenter.showNoInternetConnection();
         verify(mockedView).hideProgressBar();
@@ -74,40 +79,41 @@ public class ListPresenterTests {
     }
 
     @Test
-    public void detachView_isCorrect(){
+    public void detachView_isCorrect() {
         presenter.detachView();
         Assert.assertFalse(presenter.isViewAttached());
         Assert.assertNull(presenter.getView());
     }
 
     @Test
-    public void addNewsItem_whenViewIsAttached(){
-        NewsItem item=new NewsItem();
+    public void addNewsItem_whenViewIsAttached() {
+        NewsItem item = new NewsItem();
         presenter.addNewsItem(item);
+        Assert.assertSame(item, items.get(0));
         verify(mockedView).hideProgressBar();
         verify(mockedView).updateList(items);
     }
 
     @Test
-    public void notAddNewsItem_whenViewIsDetached(){
-        NewsItem item=new NewsItem();
+    public void notAddNewsItem_whenViewIsDetached() {
+        NewsItem item = new NewsItem();
         presenter.detachView();
         presenter.addNewsItem(item);
         verifyZeroInteractions(mockedModel, mockedView);
     }
 
     @Test
-    public void getDataFromModel_withDefaultValues_whenNoItemsShown(){
+    public void getDataFromModel_withDefaultValues_whenNoItemsShown() {
         presenter.getDataFromModel();
         verify(mockedView).showProgressBar();
         verify(mockedModel).getDataFromReddit();
     }
 
     @Test
-    public void getDataFromModel_withDefinedAfterValue_withPagination(){
-        String afterValueOfLastItem="after";
-        String expectedAfterValueOfLastItem="after";
-        NewsItem newsItem=new NewsItem();
+    public void getDataFromModel_withDefinedAfterValue_withPagination() {
+        String afterValueOfLastItem = "after";
+        String expectedAfterValueOfLastItem = "after";
+        NewsItem newsItem = new NewsItem();
         newsItem.setAfter(afterValueOfLastItem);
         items.add(newsItem);
         presenter.getDataFromModel();
