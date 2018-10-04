@@ -20,6 +20,17 @@ public class NetworkManagerImpl implements MainActivityContract.NetworkManager {
 
     private String after = "";
     private int limit = 20;
+    private static NetworkManagerImpl instance;
+
+    private NetworkManagerImpl() {
+    }
+
+    public static NetworkManagerImpl getInstance() {
+        if (instance==null){
+            instance=new NetworkManagerImpl();
+        }
+        return instance;
+    }
 
     @Override
     public void getDataFromReggit(NetworkManagerListener onApiCallListener) {
