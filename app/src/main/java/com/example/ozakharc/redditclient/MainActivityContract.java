@@ -1,6 +1,7 @@
 package com.example.ozakharc.redditclient;
 
 import com.example.ozakharc.redditclient.api.NewsItem;
+import com.example.ozakharc.redditclient.presenter.OnNetworkManagerListener;
 import com.example.ozakharc.redditclient.view.MvpView;
 import com.example.ozakharc.redditclient.view.adapter.OnItemClickListener;
 
@@ -23,13 +24,7 @@ public interface MainActivityContract {
 
     interface Presenter {
 
-        void getDataFromNetwork();
-
-        void showFailRequest();
-
         void onItemClick(NewsItem item);
-
-        void showNoInternetConnection();
 
         void addNewsItem(NewsItem item);
 
@@ -37,11 +32,17 @@ public interface MainActivityContract {
 
         void detachView();
 
+        void loadData();
+
+    }
+
+    interface NetworkManager {
+
+        void getDataFromReggit(OnNetworkManagerListener onNetworkManagerListener);
+
         void setAfter(String after);
 
         void setLimit(int limit);
-
-        void loadData();
 
     }
 }

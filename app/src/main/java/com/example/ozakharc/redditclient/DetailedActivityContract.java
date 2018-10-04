@@ -16,6 +16,8 @@ public interface DetailedActivityContract {
         void dismissDialog();
 
         boolean isDialogVisible();
+
+        void populateView(NewsItem item);
     }
 
     interface Presenter {

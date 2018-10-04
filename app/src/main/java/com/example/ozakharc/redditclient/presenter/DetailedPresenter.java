@@ -2,14 +2,17 @@ package com.example.ozakharc.redditclient.presenter;
 
 import com.example.ozakharc.redditclient.DetailedActivityContract;
 import com.example.ozakharc.redditclient.api.NewsItem;
-import com.example.ozakharc.redditclient.utils.Constants;
 
 public class DetailedPresenter extends PresenterBase<DetailedActivityContract.View> implements DetailedActivityContract.Presenter {
 
     private NewsItem item;
 
+    @Override
     public void setNewsItem(NewsItem item) {
         this.item = item;
+        if(item!=null){
+            view.populateView(item);
+        }
     }
 
     @Override

@@ -53,11 +53,14 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         ButterKnife.bind(this);
 
         NewsItem item = (NewsItem) getIntent().getExtras().get(Constants.NEWS_ITEM);
-
         presenter = new DetailedPresenter();
         presenter.attachView(this);
         presenter.setNewsItem(item);
 
+    }
+
+    @Override
+    public void populateView(NewsItem item) {
         Picasso.with(this).load(item.getThumbnail()).into(ivThumbnail);
         ivThumbnail.setOnClickListener(v -> presenter.onImageClicked());
 

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.ozakharc.redditclient.MainActivityContract;
 import com.example.ozakharc.redditclient.R;
+import com.example.ozakharc.redditclient.presenter.NetworkManagerImpl;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.presenter.MainPresenter;
 import com.example.ozakharc.redditclient.utils.Constants;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         setContentView(R.layout.activity_list);
         ButterKnife.bind(this);
 
-        this.presenter = new MainPresenter();
+        this.presenter = new MainPresenter(new NetworkManagerImpl());
         presenter.attachView(this);
         presenter.loadData();
 
