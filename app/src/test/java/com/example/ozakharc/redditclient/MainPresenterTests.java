@@ -1,7 +1,7 @@
 //package com.example.ozakharc.redditclient;
 //
 //import com.example.ozakharc.redditclient.api.NewsItem;
-//import com.example.ozakharc.redditclient.presenter.MainPresenter;
+//import com.example.ozakharc.redditclient.MainPresenter;
 //
 //import org.junit.Assert;
 //import org.junit.Before;

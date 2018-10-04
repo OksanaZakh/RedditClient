@@ -1,11 +1,9 @@
-package com.example.ozakharc.redditclient.presenter;
+package com.example.ozakharc.redditclient;
 
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 
-import com.example.ozakharc.redditclient.App;
-import com.example.ozakharc.redditclient.MainActivityContract;
 import com.example.ozakharc.redditclient.api.APIService;
 import com.example.ozakharc.redditclient.api.RetrofitInstance;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
@@ -16,7 +14,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NetworkManagerImpl implements MainActivityContract.NetworkManager {
+public class NetworkManagerImpl implements NetworkManager {
 
     private String after = "";
     private int limit = 20;
@@ -33,7 +31,7 @@ public class NetworkManagerImpl implements MainActivityContract.NetworkManager {
     }
 
     @Override
-    public void getDataFromReggit(NetworkManagerListener onApiCallListener) {
+    public void getDataFromReggit(NetworkManagerListener networkManagerListener) {
         APIService service = RetrofitInstance.getRetrofitInstance().create(APIService.class);
 
         if (initConnection()) {
@@ -43,19 +41,19 @@ public class NetworkManagerImpl implements MainActivityContract.NetworkManager {
                 @Override
                 public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                     if (response.isSuccessful()) {
-                        onApiCallListener.onFinished(response.body());
+                        networkManagerListener.onFinished(response.body());
                     } else {
-                        onApiCallListener.onFailure();
+                        networkManagerListener.onFailure();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<BaseResponse> call, Throwable t) {
-                    onApiCallListener.onFailure();
+                    networkManagerListener.onFailure();
                 }
             });
         } else {
-            onApiCallListener.onNetworkIsUnavailable();
+            networkManagerListener.onNetworkIsUnavailable();
         }
     }
 

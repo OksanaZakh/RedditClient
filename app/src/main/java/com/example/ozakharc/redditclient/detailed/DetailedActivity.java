@@ -1,4 +1,4 @@
-package com.example.ozakharc.redditclient.view;
+package com.example.ozakharc.redditclient.detailed;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -9,10 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ozakharc.redditclient.DetailedActivityContract;
 import com.example.ozakharc.redditclient.R;
 import com.example.ozakharc.redditclient.api.NewsItem;
-import com.example.ozakharc.redditclient.presenter.DetailedPresenter;
 import com.example.ozakharc.redditclient.utils.Constants;
 import com.example.ozakharc.redditclient.utils.DateConverter;
 import com.squareup.picasso.Picasso;

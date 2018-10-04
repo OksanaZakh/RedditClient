@@ -1,6 +1,5 @@
-package com.example.ozakharc.redditclient.presenter;
+package com.example.ozakharc.redditclient;
 
-import com.example.ozakharc.redditclient.MainActivityContract;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
 import com.example.ozakharc.redditclient.api.response.Child;
@@ -13,10 +12,10 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
         implements MainActivityContract.Presenter, NetworkManagerListener {
 
     private List<NewsItem> newsItems;
-    private MainActivityContract.NetworkManager networkManager;
+    private NetworkManager networkManager;
 
 
-    public MainPresenter(MainActivityContract.NetworkManager networkManager) {
+    public MainPresenter(NetworkManager networkManager) {
         newsItems = new ArrayList<>();
         this.networkManager = networkManager;
     }

@@ -1,7 +1,7 @@
-package com.example.ozakharc.redditclient;
+package com.example.ozakharc.redditclient.detailed;
 
 import com.example.ozakharc.redditclient.api.NewsItem;
-import com.example.ozakharc.redditclient.view.MvpView;
+import com.example.ozakharc.redditclient.MvpView;
 
 public interface DetailedActivityContract {
 

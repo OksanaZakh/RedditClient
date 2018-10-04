@@ -1,4 +1,4 @@
-package com.example.ozakharc.redditclient.view;
+package com.example.ozakharc.redditclient;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,13 +11,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.ozakharc.redditclient.MainActivityContract;
-import com.example.ozakharc.redditclient.R;
-import com.example.ozakharc.redditclient.presenter.NetworkManagerImpl;
+import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.api.NewsItem;
-import com.example.ozakharc.redditclient.presenter.MainPresenter;
 import com.example.ozakharc.redditclient.utils.Constants;
-import com.example.ozakharc.redditclient.view.adapter.ListItemsAdapter;
+import com.example.ozakharc.redditclient.adapter.ListItemsAdapter;
 
 import java.util.List;
 
@@ -46,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         presenter.attachView(this);
         presenter.loadData();
 
-        setDataToAdapter();
+        setAdapter();
     }
 
     @Override
@@ -65,11 +62,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         super.onDestroy();
         presenter.detachView();
         if (isFinishing()) {
-            presenter=null;
+            presenter = null;
         }
     }
 
-    private void setDataToAdapter() {
+    private void setAdapter() {
         adapter = new ListItemsAdapter();
         adapter.setOnItemClickListener(this);
 
@@ -99,12 +96,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     @Override
-    public void showProgressBar(){
+    public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideProgressBar(){
+    public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
     }
 

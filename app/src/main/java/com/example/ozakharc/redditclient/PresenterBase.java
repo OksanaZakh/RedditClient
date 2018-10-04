@@ -1,6 +1,4 @@
-package com.example.ozakharc.redditclient.presenter;
-
-import com.example.ozakharc.redditclient.view.MvpView;
+package com.example.ozakharc.redditclient;
 
 public abstract class PresenterBase<T extends MvpView> {
 

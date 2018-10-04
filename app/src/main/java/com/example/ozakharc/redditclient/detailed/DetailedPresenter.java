@@ -1,7 +1,7 @@
-package com.example.ozakharc.redditclient.presenter;
+package com.example.ozakharc.redditclient.detailed;
 
-import com.example.ozakharc.redditclient.DetailedActivityContract;
 import com.example.ozakharc.redditclient.api.NewsItem;
+import com.example.ozakharc.redditclient.PresenterBase;
 
 public class DetailedPresenter extends PresenterBase<DetailedActivityContract.View> implements DetailedActivityContract.Presenter {
 

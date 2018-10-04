@@ -1,4 +1,4 @@
-package com.example.ozakharc.redditclient.view.adapter;
+package com.example.ozakharc.redditclient.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

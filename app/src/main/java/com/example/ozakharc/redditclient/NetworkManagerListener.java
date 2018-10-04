@@ -1,4 +1,4 @@
-package com.example.ozakharc.redditclient.presenter;
+package com.example.ozakharc.redditclient;
 
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
 
