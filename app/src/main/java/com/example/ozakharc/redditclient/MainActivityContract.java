@@ -1,7 +1,7 @@
 package com.example.ozakharc.redditclient;
 
 import com.example.ozakharc.redditclient.api.NewsItem;
-import com.example.ozakharc.redditclient.presenter.OnNetworkManagerListener;
+import com.example.ozakharc.redditclient.presenter.NetworkManagerListener;
 import com.example.ozakharc.redditclient.view.MvpView;
 import com.example.ozakharc.redditclient.view.adapter.OnItemClickListener;
 
@@ -38,7 +38,7 @@ public interface MainActivityContract {
 
     interface NetworkManager {
 
-        void getDataFromReggit(OnNetworkManagerListener onNetworkManagerListener);
+        void getDataFromReggit(NetworkManagerListener networkManagerListener);
 
         void setAfter(String after);
 

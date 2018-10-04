@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainPresenter extends PresenterBase<MainActivityContract.View>
-        implements MainActivityContract.Presenter, OnNetworkManagerListener {
+        implements MainActivityContract.Presenter, NetworkManagerListener {
 
     private List<NewsItem> newsItems;
     private MainActivityContract.NetworkManager networkManager;

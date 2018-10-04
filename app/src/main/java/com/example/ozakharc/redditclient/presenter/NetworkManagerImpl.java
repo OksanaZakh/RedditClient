@@ -22,7 +22,7 @@ public class NetworkManagerImpl implements MainActivityContract.NetworkManager {
     private int limit = 20;
 
     @Override
-    public void getDataFromReggit(OnNetworkManagerListener onApiCallListener) {
+    public void getDataFromReggit(NetworkManagerListener onApiCallListener) {
         APIService service = RetrofitInstance.getRetrofitInstance().create(APIService.class);
 
         if (initConnection()) {
