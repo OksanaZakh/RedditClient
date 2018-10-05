@@ -47,7 +47,7 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
     }
 
     @Override
-    public void onFinished(BaseResponse baseResponse) {
+    public void onGettingSuccessResponse(BaseResponse baseResponse) {
         String after = baseResponse.getData().getAfter();
         List<Child> children = baseResponse.getData().getChildren();
         for (Child child : children) {
@@ -66,7 +66,7 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
     }
 
     @Override
-    public void onFailure() {
+    public void onResponseFailure() {
         if (isViewAttached()) {
             view.hideProgressBar();
             view.showAlert(Constants.ERROR_MESSAGE);

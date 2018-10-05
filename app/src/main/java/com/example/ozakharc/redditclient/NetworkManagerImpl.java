@@ -46,15 +46,15 @@ public class NetworkManagerImpl implements NetworkManager {
                 @Override
                 public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                     if (response.isSuccessful()) {
-                        networkManagerListener.onFinished(response.body());
+                        networkManagerListener.onGettingSuccessResponse(response.body());
                     } else {
-                        networkManagerListener.onFailure();
+                        networkManagerListener.onResponseFailure();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<BaseResponse> call, Throwable t) {
-                    networkManagerListener.onFailure();
+                    networkManagerListener.onResponseFailure();
                 }
             });
         } else {
