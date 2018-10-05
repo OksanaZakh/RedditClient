@@ -16,8 +16,8 @@ import retrofit2.Response;
 
 public class NetworkManagerImpl implements NetworkManager {
 
-    private String after = "";
-    private int limit = 20;
+    private NetworkManagerListener networkManagerListener;
+
     private static NetworkManagerImpl instance;
 
     private NetworkManagerImpl() {
@@ -31,7 +31,12 @@ public class NetworkManagerImpl implements NetworkManager {
     }
 
     @Override
-    public void getDataFromReggit(NetworkManagerListener networkManagerListener) {
+    public void setListener(NetworkManagerListener networkManagerListener) {
+        this.networkManagerListener = networkManagerListener;
+    }
+
+    @Override
+    public void getDataFromReddit(String after, int limit) {
         APIService service = RetrofitInstance.getRetrofitInstance().create(APIService.class);
 
         if (initConnection()) {
@@ -60,16 +65,6 @@ public class NetworkManagerImpl implements NetworkManager {
     private boolean initConnection() {
         return ((ConnectivityManager) Objects.requireNonNull(App.getInstance().getSystemService
                 (Context.CONNECTIVITY_SERVICE))).getActiveNetworkInfo() != null;
-    }
-
-    @Override
-    public void setAfter(String after) {
-        this.after = after;
-    }
-
-    @Override
-    public void setLimit(int limit) {
-        this.limit = limit;
     }
 
 }

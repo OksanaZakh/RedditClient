@@ -13,22 +13,23 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
 
     private List<NewsItem> newsItems;
     private NetworkManager networkManager;
+    private int limit=20;
+    private String after="";
 
 
     public MainPresenter(NetworkManager networkManager) {
         newsItems = new ArrayList<>();
         this.networkManager = networkManager;
+        networkManager.setListener(this);
     }
 
     @Override
     public void loadData() {
         view.showProgressBar();
-        if (newsItems.size() > 0) {
-            networkManager.setAfter(newsItems.get(newsItems.size() - 1).getAfter());
-            networkManager.getDataFromReggit(this);
-        } else {
-            networkManager.getDataFromReggit(this);
+        if (newsItems.size() >= limit) {
+            setAfter(newsItems.get(newsItems.size() - 1).getAfter());
         }
+        networkManager.getDataFromReddit(after, limit);
     }
 
     @Override
@@ -88,6 +89,14 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
             return imageUrl;
         }
         return imageUrl;
+    }
+
+    public void setAfter(String after) {
+        this.after = after;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
 

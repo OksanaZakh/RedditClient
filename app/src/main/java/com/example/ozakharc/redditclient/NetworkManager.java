@@ -2,11 +2,9 @@ package com.example.ozakharc.redditclient;
 
 public interface NetworkManager {
 
-    void getDataFromReggit(NetworkManagerListener networkManagerListener);
+    void getDataFromReddit(String after, int limit);
 
-    void setAfter(String after);
-
-    void setLimit(int limit);
+    void setListener(NetworkManagerListener networkManagerListener);
 
 }
 

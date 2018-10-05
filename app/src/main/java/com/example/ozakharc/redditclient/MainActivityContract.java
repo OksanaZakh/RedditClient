@@ -32,6 +32,7 @@ public interface MainActivityContract {
 
         void loadData();
 
+
     }
 
 
