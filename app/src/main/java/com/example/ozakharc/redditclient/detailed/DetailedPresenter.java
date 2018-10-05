@@ -10,23 +10,19 @@ public class DetailedPresenter extends PresenterBase<DetailedActivityContract.Vi
     @Override
     public void setNewsItem(NewsItem item) {
         this.item = item;
-        if(item!=null){
+        if (item != null) {
             view.populateView(item);
         }
     }
 
     @Override
     public void onImageClicked() {
-        if (item != null && isViewAttached()) {
-            view.showDialog(item.getPhotoUrl());
-        }
+        view.showDialog(item.getPhotoUrl());
     }
 
     @Override
     public void onLinkClicked() {
-        if (item != null && isViewAttached()) {
-            view.goToWebPage(item.getUrl());
-        }
+        view.goToWebPage(item.getUrl());
     }
 
     @Override
@@ -36,7 +32,7 @@ public class DetailedPresenter extends PresenterBase<DetailedActivityContract.Vi
 
     @Override
     public void onDialogImageClicked() {
-        if(view.isDialogVisible()){
+        if (view.isDialogVisible()) {
             view.dismissDialog();
         }
     }
