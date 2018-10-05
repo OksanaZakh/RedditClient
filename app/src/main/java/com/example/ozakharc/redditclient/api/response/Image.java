@@ -7,4 +7,8 @@ public class Image {
     public Source getSource() {
         return source;
     }
+
+    public void setSource(Source source) {
+        this.source = source;
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.ozakharc.redditclient.api;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class NewsItem implements Serializable {
 
@@ -92,5 +93,21 @@ public class NewsItem implements Serializable {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NewsItem item = (NewsItem) o;
+        return Objects.equals(after, item.after) &&
+                Objects.equals(title, item.title) &&
+                Objects.equals(thumbnail, item.thumbnail) &&
+                Objects.equals(numComments, item.numComments) &&
+                Objects.equals(author, item.author) &&
+                Objects.equals(createdUtc, item.createdUtc) &&
+                Objects.equals(selftext, item.selftext) &&
+                Objects.equals(photoUrl, item.photoUrl) &&
+                Objects.equals(url, item.url);
     }
 }

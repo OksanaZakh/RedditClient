@@ -5,8 +5,6 @@ import java.util.List;
 
 public class Data {
 
-    private Integer dist;
-
     private List<Child> children = null;
 
     private String after;
@@ -19,4 +17,11 @@ public class Data {
         return after;
     }
 
+    public void setChildren(List<Child> children) {
+        this.children = children;
+    }
+
+    public void setAfter(String after) {
+        this.after = after;
+    }
 }

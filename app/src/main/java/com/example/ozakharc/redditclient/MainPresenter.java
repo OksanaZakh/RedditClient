@@ -20,7 +20,7 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
     public MainPresenter(NetworkManager networkManager) {
         newsItems = new ArrayList<>();
         this.networkManager = networkManager;
-        networkManager.setListener(this);
+        this.networkManager.setListener(this);
     }
 
     @Override
@@ -39,9 +39,9 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
 
     @Override
     public void addNewsItem(NewsItem item) {
-        newsItems.add(item);
         if (isViewAttached()) {
             view.hideProgressBar();
+            newsItems.add(item);
             view.showData(newsItems);
         }
     }

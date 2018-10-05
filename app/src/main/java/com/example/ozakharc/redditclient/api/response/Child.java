@@ -11,4 +11,8 @@ public class Child {
     public ChildData getChildDta() {
         return childDta;
     }
+
+    public void setChildDta(ChildData childDta) {
+        this.childDta = childDta;
+    }
 }

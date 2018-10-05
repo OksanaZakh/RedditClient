@@ -55,4 +55,35 @@ public class ChildData {
         return preview;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public void setNumComments(Integer numComments) {
+        this.numComments = numComments;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setCreatedUtc(long createdUtc) {
+        this.createdUtc = createdUtc;
+    }
+
+    public void setSelftext(String selftext) {
+        this.selftext = selftext;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setPreview(Preview preview) {
+        this.preview = preview;
+    }
 }
