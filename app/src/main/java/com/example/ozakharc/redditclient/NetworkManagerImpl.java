@@ -1,14 +1,8 @@
 package com.example.ozakharc.redditclient;
 
-
-import android.content.Context;
-import android.net.ConnectivityManager;
-
 import com.example.ozakharc.redditclient.api.APIService;
 import com.example.ozakharc.redditclient.api.RetrofitInstance;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
-
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,17 +11,16 @@ import retrofit2.Response;
 public class NetworkManagerImpl implements NetworkManager {
 
     private NetworkManagerListener networkManagerListener;
+    private InternetConnection internetConnection;
+    private APIService service;
 
-    private static NetworkManagerImpl instance;
-
-    private NetworkManagerImpl() {
+    public NetworkManagerImpl(InternetConnection internetConnection) {
+        this.internetConnection=internetConnection;
+        service=RetrofitInstance.getRetrofitInstance().create(APIService.class);
     }
 
-    public static NetworkManagerImpl getInstance() {
-        if (instance==null){
-            instance=new NetworkManagerImpl();
-        }
-        return instance;
+    public void setService(APIService service) {
+        this.service = service;
     }
 
     @Override
@@ -37,21 +30,19 @@ public class NetworkManagerImpl implements NetworkManager {
 
     @Override
     public void getDataFromReddit(String after, int limit) {
-        APIService service = RetrofitInstance.getRetrofitInstance().create(APIService.class);
 
-        if (initConnection()) {
+        if (internetConnection.isAvailable()) {
             Call<BaseResponse> call = service.getLatestNews(after, limit);
             call.enqueue(new Callback<BaseResponse>() {
 
                 @Override
                 public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                     if (response.isSuccessful()) {
-                        networkManagerListener.onGettingSuccessResponse(response.body());
+                        networkManagerListener.onSuccessResponse(response.body());
                     } else {
                         networkManagerListener.onResponseFailure();
                     }
                 }
-
                 @Override
                 public void onFailure(Call<BaseResponse> call, Throwable t) {
                     networkManagerListener.onResponseFailure();
@@ -60,11 +51,6 @@ public class NetworkManagerImpl implements NetworkManager {
         } else {
             networkManagerListener.onNetworkIsUnavailable();
         }
-    }
-
-    private boolean initConnection() {
-        return ((ConnectivityManager) Objects.requireNonNull(App.getInstance().getSystemService
-                (Context.CONNECTIVITY_SERVICE))).getActiveNetworkInfo() != null;
     }
 
 }

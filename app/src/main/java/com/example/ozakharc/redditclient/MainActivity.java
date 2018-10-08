@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         setContentView(R.layout.activity_list);
         ButterKnife.bind(this);
 
-        this.presenter = new MainPresenter(NetworkManagerImpl.getInstance());
+        this.presenter = new MainPresenter(new NetworkManagerImpl(new InternetConnectionImpl(this)));
         presenter.attachView(this);
         presenter.loadData();
 

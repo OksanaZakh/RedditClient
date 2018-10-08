@@ -149,7 +149,7 @@ public class MainPresenterTests {
         BaseResponse baseResponse=DataGeneratorForMainPresenterTest
                 .createBaseResponse();
         List<NewsItem> items=DataGeneratorForMainPresenterTest.createNewsItem();
-        presenter.onGettingSuccessResponse(baseResponse);
+        presenter.onSuccessResponse(baseResponse);
         verify(mockedView).showData(eq(items));
     }
 
@@ -158,7 +158,7 @@ public class MainPresenterTests {
         BaseResponse baseResponse=DataGeneratorForMainPresenterTest
                 .createBaseResponseWithEmptyImageUrl();
         List<NewsItem> items=DataGeneratorForMainPresenterTest.createNewsItemWithEmptyImageUrl();
-        presenter.onGettingSuccessResponse(baseResponse);
+        presenter.onSuccessResponse(baseResponse);
         verify(mockedView).showData(eq(items));
     }
 }

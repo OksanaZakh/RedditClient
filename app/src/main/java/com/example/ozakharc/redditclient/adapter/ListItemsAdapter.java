@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 
 import com.example.ozakharc.redditclient.App;
 import com.example.ozakharc.redditclient.R;
@@ -19,7 +20,7 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
     private List<NewsItem> items;
     private OnItemClickListener onItemClickListener;
 
-    public void setData(List<NewsItem> items){
+    public void setData(List<NewsItem> items) {
         this.items = items;
         notifyDataSetChanged();
     }
@@ -27,8 +28,8 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
     @NonNull
     @Override
     public NewsItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater inflater= LayoutInflater.from(viewGroup.getContext());
-        View view=inflater.inflate(R.layout.news_item_view_holder, viewGroup, false);
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        View view = inflater.inflate(R.layout.news_item_view_holder, viewGroup, false);
         return new NewsItemViewHolder(view);
     }
 
@@ -38,10 +39,10 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
         holder.tvDate.setText(DateConverter.getStringDate(items.get(i).getCreatedUtc()));
         holder.tvTitle.setText(items.get(i).getTitle());
 
-        if(items.get(i).getThumbnail().contains("https://")) {
+        if (URLUtil.isValidUrl(items.get(i).getThumbnail())) {
             holder.tvThumbnail.setVisibility(View.VISIBLE);
             Picasso.with(App.getInstance()).load(items.get(i).getThumbnail()).into(holder.tvThumbnail);
-        }else{
+        } else {
             holder.tvThumbnail.setVisibility(View.GONE);
         }
         holder.tvNumComments.setText(items.get(i).getNumComments().toString());
@@ -56,9 +57,9 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (items!=null) {
+        if (items != null) {
             return items.size();
-        }else return 0;
+        } else return 0;
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

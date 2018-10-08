@@ -47,7 +47,7 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
     }
 
     @Override
-    public void onGettingSuccessResponse(BaseResponse baseResponse) {
+    public void onSuccessResponse(BaseResponse baseResponse) {
         String after = baseResponse.getData().getAfter();
         List<Child> children = baseResponse.getData().getChildren();
         for (Child child : children) {
