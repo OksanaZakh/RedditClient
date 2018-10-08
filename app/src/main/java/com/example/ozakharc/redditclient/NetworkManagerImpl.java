@@ -19,10 +19,6 @@ public class NetworkManagerImpl implements NetworkManager {
         service=RetrofitInstance.getRetrofitInstance().create(APIService.class);
     }
 
-    public void setService(APIService service) {
-        this.service = service;
-    }
-
     @Override
     public void setListener(NetworkManagerListener networkManagerListener) {
         this.networkManagerListener = networkManagerListener;

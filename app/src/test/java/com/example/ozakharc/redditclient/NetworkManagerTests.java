@@ -28,14 +28,13 @@ public class NetworkManagerTests {
     @Mock
     private APIService mockedService;
     @InjectMocks
-    private NetworkManagerImpl networkManager;
+    private NetworkManager networkManager=new NetworkManagerImpl(mockedInternetConnection);
     private final int limit=20;
     private final String after="";
 
     @Before
     public void setup() {
         networkManager.setListener(mockedListener);
-        networkManager.setService(mockedService);
     }
 
     @Test
