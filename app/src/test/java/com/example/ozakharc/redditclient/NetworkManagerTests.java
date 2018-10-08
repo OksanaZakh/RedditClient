@@ -59,8 +59,8 @@ public class NetworkManagerTests {
     public void getDataFromReddit_failure_callOnResponseFailure() {
         Call<BaseResponse> call = Calls.failure(new IOException());
         when(mockedInternetConnection.isAvailable()).thenReturn(true);
-        when(mockedService.getLatestNews("", 20)).thenReturn(call);
-        networkManager.getDataFromReddit("", 20);
+        when(mockedService.getLatestNews(after, limit)).thenReturn(call);
+        networkManager.getDataFromReddit(after, limit);
         verify(mockedListener).onResponseFailure();
     }
 }
