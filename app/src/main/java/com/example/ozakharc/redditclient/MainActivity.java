@@ -1,5 +1,6 @@
 package com.example.ozakharc.redditclient;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.api.NewsItem;
@@ -24,6 +26,18 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
 
     private MainActivityContract.Presenter presenter;
+
+    private ProgressListener listener;
+    private boolean isInProgress;
+
+    public interface ProgressListener {
+       void onProgressShown();
+       void onProgressDismissed();
+    }
+
+    public void setProgressListener(ProgressListener progressListener) {
+        listener = progressListener;
+    }
 
     @BindView(R.id.rvList)
     RecyclerView rvList;
@@ -42,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         this.presenter = new MainPresenter(new NetworkManagerImpl(new InternetConnectionImpl(this)));
         presenter.attachView(this);
         presenter.loadData();
-
         setAdapter();
     }
 
@@ -98,11 +111,23 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
+        isInProgress=true;
+        if(listener!=null){
+            listener.onProgressShown();
+        }
     }
 
     @Override
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
+        isInProgress=false;
+        if(listener!=null){
+            listener.onProgressDismissed();
+        }
+    }
+
+    public boolean isInProgress() {
+        return isInProgress;
     }
 
 }
