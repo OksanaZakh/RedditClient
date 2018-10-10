@@ -67,18 +67,18 @@ public class DetailedActivityEspressoTest {
         onView(withId(R.id.tvDescription)).check(matches(allOf(isDisplayed(), withText(SELF_TEXT))));
     }
 
-    @Test
-    public void imageDialogVisibility() {
-        onView(withId(R.id.ivPhoto)).perform(click());
-        try {
-            wait(5000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //onView(DrawableMatcher.withDrawable(R.drawable.ic_left_arrow)).inRoot(isDialog()).check(matches(isDisplayed()));
-        onView(hasDescendant(isDisplayed())).inRoot(isDialog());
-//        onView(hasDescendant(isDisplayed())).inRoot(not(isDialog()));
-    }
+//    @Test
+//    public void imageDialogVisibility() {
+//        onView(withId(R.id.ivPhoto)).perform(click());
+//        try {
+//            wait(5000);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        //onView(DrawableMatcher.withDrawable(R.drawable.ic_left_arrow)).inRoot(isDialog()).check(matches(isDisplayed()));
+//        onView(hasDescendant(isDisplayed())).inRoot(isDialog());
+////        onView(hasDescendant(isDisplayed())).inRoot(not(isDialog()));
+//    }
 
 
 }
