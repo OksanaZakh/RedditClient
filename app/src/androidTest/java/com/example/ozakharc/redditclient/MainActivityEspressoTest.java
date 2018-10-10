@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
+import com.example.ozakharc.redditclient.helpers.ProgressIdlingResource;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -23,6 +24,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 
 import java.util.Collection;
 
@@ -36,6 +38,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.internal.util.Checks.checkNotNull;
 import static android.support.test.runner.lifecycle.Stage.RESUMED;
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.core.AllOf.allOf;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -62,19 +65,19 @@ public class MainActivityEspressoTest {
     public void scrollToItemBelowFold_checkItsText_andVisibility() {
 
         onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(TARGET_POSITION))
-                .check(matches(atPosition(TARGET_POSITION, hasDescendant(withText("Posted by:")))));
+                .check(matches(atPosition(TARGET_POSITION, hasDescendant(allOf(withText("Posted by:"), isDisplayed())))));
         onView(ViewMatchers.withId(R.id.rvList))
-                .check(matches(atPosition(TARGET_POSITION, hasDescendant(withText("Date:")))));
+                .check(matches(atPosition(TARGET_POSITION, hasDescendant(allOf(withText("Date:"), isDisplayed())))));
         onView(ViewMatchers.withId(R.id.rvList))
-                .check(matches(atPosition(TARGET_POSITION, hasDescendant(withText("Comments")))));
+                .check(matches(atPosition(TARGET_POSITION, hasDescendant(allOf(withText("Comments"), isDisplayed())))));
         onView(ViewMatchers.withId(R.id.rvList))
-                .check(matches(atPosition(TARGET_POSITION, hasDescendant(withId(R.id.tvAuthor)))));
+                .check(matches(atPosition(TARGET_POSITION, hasDescendant(withId(R.id.ivThumbnail)))));
         onView(ViewMatchers.withId(R.id.rvList))
-                .check(matches(atPosition(TARGET_POSITION, hasDescendant(withId(R.id.tvDate)))));
+                .check(matches(atPosition(TARGET_POSITION, hasDescendant(allOf(withId(R.id.tvDate), isDisplayed())))));
         onView(ViewMatchers.withId(R.id.rvList))
-                .check(matches(atPosition(TARGET_POSITION, hasDescendant(withId(R.id.tvNumComments)))));
-
-        onView(ViewMatchers.withId(R.id.rvList)).check(matches(atPosition(TARGET_POSITION, isDisplayed())));
+                .check(matches(atPosition(TARGET_POSITION, hasDescendant(allOf(withId(R.id.tvNumComments), isDisplayed())))));
+        onView(ViewMatchers.withId(R.id.rvList))
+                .check(matches(atPosition(TARGET_POSITION, hasDescendant(allOf(withId(R.id.tvAuthor), isDisplayed())))));
     }
 
     @Test
@@ -90,8 +93,6 @@ public class MainActivityEspressoTest {
     public void appNameDisplayed_inActionBar() {
         onView(withText(R.string.app_name)).check(matches(isDisplayed()));
     }
-
-
 
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
         checkNotNull(itemMatcher);
@@ -113,7 +114,7 @@ public class MainActivityEspressoTest {
         };
     }
 
-    public Activity getActivityInstance() {
+    public static Activity getActivityInstance() {
         final Activity[] activity = new Activity[1];
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
             Activity currentActivity;

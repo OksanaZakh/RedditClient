@@ -2,6 +2,7 @@ package com.example.ozakharc.redditclient;
 
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
+import com.example.ozakharc.redditclient.utils.Constants;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -118,7 +119,7 @@ public class MainPresenterTests {
 
     @Test
     public void onResponseFailure_showAlert_whenViewIsAttached() {
-        String expectedAlert = "Error occurs, can't download data from Reddit!";
+        String expectedAlert = Constants.ERROR_MESSAGE;
         presenter.onResponseFailure();
         verify(mockedView).showAlert(eq(expectedAlert));
     }
@@ -139,7 +140,7 @@ public class MainPresenterTests {
 
     @Test
     public void onNetworkIsUnavailable_showAlert_whenViewIsAttached() {
-        String expectedAlert = "Bad internet connection, can't download a data from Reddit!";
+        String expectedAlert = Constants.NO_INTERNET_MESSAGE;
         presenter.onNetworkIsUnavailable();
         verify(mockedView).showAlert(eq(expectedAlert));
     }

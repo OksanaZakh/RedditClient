@@ -1,6 +1,8 @@
-package com.example.ozakharc.redditclient;
+package com.example.ozakharc.redditclient.helpers;
 
 import android.support.test.espresso.IdlingResource;
+
+import com.example.ozakharc.redditclient.MainActivity;
 
 public class ProgressIdlingResource implements IdlingResource{
 
