@@ -1,9 +1,7 @@
 package com.example.ozakharc.redditclient;
 
 import android.app.Activity;
-import android.content.Context;
 
-import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
@@ -18,7 +16,6 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.webkit.URLUtil;
 
@@ -120,13 +117,15 @@ public class MainActivityTest {
         onView(withText(R.string.app_name)).check(matches(isDisplayed()));
     }
 
-//    @Ignore
-//    public void showMessage_whenNoInternetConnection() {
-//        disconnect();
-//        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(19));
-//        onView(withId(R.id.rvList)).perform(swipeUp());
-//        onView(withText(Constants.NO_INTERNET_MESSAGE)).inRoot(withDecorView(not(is(activityTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-//    }
+    @Test
+    public void testProgressBarVisibility() {
+        IdlingRegistry.getInstance().unregister(idlingResource);
+        onView(withId(R.id.progressBar)).check(matches(isDisplayed()));
+        IdlingRegistry.getInstance().register(idlingResource);
+        onView(withId(R.id.progressBar)).check(matches(not(isDisplayed())));
+        IdlingRegistry.getInstance().unregister(idlingResource);
+    }
+
 
     @Test
     public void loadDifferentItems_withPagination_checkItsCount() {
@@ -160,14 +159,9 @@ public class MainActivityTest {
 
 
     public List<NewsItem> getNewsItemsLoaded() {
-        Log.d(TAG, "getNewsItemsLoaded: " + activityTestRule.getActivity().getAllNewsItems().size());
         return activityTestRule.getActivity().getAllNewsItems();
     }
 
-    public void disconnect() {
-        WifiManager wifiManager = (WifiManager) activityTestRule.getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifiManager.setWifiEnabled(false);
-    }
 
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
         checkNotNull(itemMatcher);
@@ -188,7 +182,6 @@ public class MainActivityTest {
             }
         };
     }
-
 
     public static ViewAction swipeUp() {
         return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,

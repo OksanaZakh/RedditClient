@@ -1,6 +1,5 @@
 package com.example.ozakharc.redditclient;
 
-import android.content.Intent;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.contrib.RecyclerViewActions;
