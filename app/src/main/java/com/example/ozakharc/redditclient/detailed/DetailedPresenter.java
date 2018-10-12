@@ -17,7 +17,7 @@ public class DetailedPresenter extends PresenterBase<DetailedActivityContract.Vi
 
     @Override
     public void onImageClicked() {
-        view.showDialog(item.getPhotoUrl());
+        view.showDialog(item.getThumbnail());
     }
 
     @Override

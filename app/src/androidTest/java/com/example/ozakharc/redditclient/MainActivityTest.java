@@ -5,7 +5,6 @@ import android.content.Context;
 
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewAction;
@@ -18,7 +17,6 @@ import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +24,7 @@ import android.webkit.URLUtil;
 
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
+import com.example.ozakharc.redditclient.helpers.ActivityIdentification;
 import com.example.ozakharc.redditclient.helpers.ProgressIdlingResource;
 import com.example.ozakharc.redditclient.utils.DateConverter;
 
@@ -34,12 +33,10 @@ import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Collection;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -50,7 +47,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.internal.util.Checks.checkNotNull;
-import static android.support.test.runner.lifecycle.Stage.RESUMED;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.allOf;
@@ -113,7 +109,7 @@ public class MainActivityTest {
     @Test
     public void navigateToDetailedActivity_whenClickOnItem() {
         onView(ViewMatchers.withId(R.id.rvList)).perform(click());
-        Activity activity = getActivityInstance();
+        Activity activity = ActivityIdentification.getActivityInstance();
         boolean isNavigateToDetailed = (activity instanceof DetailedActivity);
         assertTrue(isNavigateToDetailed);
     }
@@ -193,19 +189,6 @@ public class MainActivityTest {
         };
     }
 
-
-    public static Activity getActivityInstance() {
-        final Activity[] activity = new Activity[1];
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
-            Activity currentActivity;
-            Collection resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(RESUMED);
-            if (resumedActivities.iterator().hasNext()) {
-                currentActivity = (Activity) resumedActivities.iterator().next();
-                activity[0] = currentActivity;
-            }
-        });
-        return activity[0];
-    }
 
     public static ViewAction swipeUp() {
         return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,

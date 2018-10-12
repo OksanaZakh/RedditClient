@@ -93,13 +93,17 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.image_dialog);
         ImageView image = dialog.findViewById(R.id.image);
-        listener.onProgressShown();
-        Picasso.with(this).load(imageUrl).into(image, new Callback.EmptyCallback(){
+        if (listener!=null) {
+            listener.onProgressShown();
+        }
+        Picasso.with(this).load(imageUrl).fit().centerCrop().into(image, new Callback.EmptyCallback(){
             @Override
             public void onSuccess() {
                 super.onSuccess();
                 loadedDialogImage.set(true);
-                listener.onProgressDismissed();
+                if(listener!=null) {
+                    listener.onProgressDismissed();
+                }
             }
         });
 

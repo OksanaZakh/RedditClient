@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
     buildTypes {
         release {
@@ -19,6 +20,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    testOptions {
+        execution 'ANDROID_TEST_ORCHESTRATOR'
     }
 }
 
@@ -57,4 +61,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso.idling:idling-concurrent:3.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
+    androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
 }

@@ -8,13 +8,13 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.support.v7.widget.Toolbar;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
+import com.example.ozakharc.redditclient.helpers.ActivityIdentification;
 import com.example.ozakharc.redditclient.helpers.DrawableMatcher;
 import com.example.ozakharc.redditclient.helpers.ProgressIdlingResource;
 import com.example.ozakharc.redditclient.utils.DateConverter;
@@ -26,11 +26,9 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
-import java.util.Collection;
-
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -39,7 +37,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static android.support.test.runner.lifecycle.Stage.RESUMED;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.AllOf.allOf;
@@ -84,7 +81,7 @@ public class DetailedActivityTest {
         onView(withId(R.id.rvList)).perform(click());
         onView(withId(R.id.toolbar)).check(matches(hasDescendant(allOf(DrawableMatcher.withDrawable(R.drawable.ic_left_arrow), isDisplayed()))));
         onView(allOf(isAssignableFrom(ImageView.class), withParent(isAssignableFrom(Toolbar.class)))).perform((click()));
-        Activity activity = getActivityInstance();
+        Activity activity = ActivityIdentification.getActivityInstance();
         boolean isNavigateToMain = (activity instanceof MainActivity);
         assertTrue(isNavigateToMain);
     }
@@ -93,7 +90,7 @@ public class DetailedActivityTest {
     public void navigateToMainActivity_whenBackPressClicked() {
         onView(ViewMatchers.withId(R.id.rvList)).perform(click());
         Espresso.pressBack();
-        Activity activity = getActivityInstance();
+        Activity activity = ActivityIdentification.getActivityInstance();
         boolean isNavigateToMain = (activity instanceof MainActivity);
         assertTrue(isNavigateToMain);
     }
@@ -125,7 +122,8 @@ public class DetailedActivityTest {
     }
 
     @Test
-    public void imageDialogVisibility() {
+    public void imageDialog_checkVisibilityAndClick() {
+        //Find item with image
         int targetPosition = 0;
         onView(ViewMatchers.withId(R.id.rvList)).check(matches(isDisplayed()));
         NewsItem item = mainActivityRule.getActivity().getAllNewsItems().get(targetPosition);
@@ -133,26 +131,18 @@ public class DetailedActivityTest {
             targetPosition++;
             item = mainActivityRule.getActivity().getAllNewsItems().get(targetPosition);
         }
+
+        //Do to Detailed Activity and click on image
         onView(withId(R.id.rvList)).perform(RecyclerViewActions.actionOnItemAtPosition(targetPosition, click()));
         onView(withId(R.id.tvTitle)).check(matches(allOf(isDisplayed(), withText(item.getTitle()))));
-        dialogIdlingResource = new ProgressIdlingResource((DetailedActivity) getActivityInstance());
         onView(withId(R.id.ivPhoto)).perform(click());
+
+        //Register Idling recourse for image loading
+        dialogIdlingResource = new ProgressIdlingResource((DetailedActivity) ActivityIdentification.getActivityInstance());
         IdlingRegistry.getInstance().register(dialogIdlingResource);
-        onView(hasDescendant(isDisplayed())).inRoot(isDialog());
 
-    }
-
-    //TODO
-    public static Activity getActivityInstance() {
-        final Activity[] activity = new Activity[1];
-        getInstrumentation().runOnMainSync(() -> {
-            Activity currentActivity;
-            Collection resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(RESUMED);
-            if (resumedActivities.iterator().hasNext()) {
-                currentActivity = (Activity) resumedActivities.iterator().next();
-                activity[0] = currentActivity;
-            }
-        });
-        return activity[0];
+        //Check if the dialog is displays and disappears after clicking
+        onView(withId(R.id.image)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.image)).check(doesNotExist());
     }
 }
