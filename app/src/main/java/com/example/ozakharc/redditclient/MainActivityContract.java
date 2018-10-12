@@ -1,5 +1,7 @@
 package com.example.ozakharc.redditclient;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.adapter.OnItemClickListener;
 
@@ -32,6 +34,8 @@ public interface MainActivityContract {
 
         void loadData();
 
+        @VisibleForTesting
+        List<NewsItem> getNewsItems();
 
     }
 

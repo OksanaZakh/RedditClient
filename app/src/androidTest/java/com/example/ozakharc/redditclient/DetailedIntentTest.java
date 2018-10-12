@@ -1,46 +1,68 @@
 package com.example.ozakharc.redditclient;
 
 import android.content.Intent;
+import android.support.test.espresso.IdlingRegistry;
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
-import com.example.ozakharc.redditclient.helpers.NewsItemCreator;
-import com.example.ozakharc.redditclient.utils.Constants;
+import com.example.ozakharc.redditclient.helpers.ProgressIdlingResource;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.example.ozakharc.redditclient.helpers.NewsItemCreator.URL;
-import static org.hamcrest.core.AllOf.allOf;
+
 
 @RunWith(AndroidJUnit4.class)
 public class DetailedIntentTest {
 
-    @Rule
-    public IntentsTestRule<DetailedActivity> rule = new IntentsTestRule<>(
+
+    private IdlingResource idlingResource;
+    private IntentsTestRule<MainActivity> mainIntentRule = new IntentsTestRule<>(
+            MainActivity.class);
+    private IntentsTestRule<DetailedActivity> detailedIntentRule = new IntentsTestRule<>(
             DetailedActivity.class, false, false);
+
+
+    @Rule
+    public RuleChain chain = RuleChain.outerRule(mainIntentRule).around(detailedIntentRule);
+
 
     @Before
     public void setup() {
-        NewsItem newsItem = NewsItemCreator.createNewsItem();
-        Intent intent = new Intent();
-        intent.putExtra(Constants.NEWS_ITEM, newsItem);
-        rule.launchActivity(intent);
+        idlingResource = new ProgressIdlingResource(mainIntentRule.getActivity());
+        IdlingRegistry.getInstance().register(idlingResource);
+    }
+
+    @After
+    public void unregister() {
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     @Test
     public void goToWebPage_whenLinkClicked() {
+        int targetPosition=0;
+        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(targetPosition+1));
+        NewsItem item=mainIntentRule.getActivity().getAllNewsItems().get(targetPosition);
+        while(item.getUrl().isEmpty()){
+            targetPosition++;
+            item=mainIntentRule.getActivity().getAllNewsItems().get(targetPosition);
+        }
+        onView(withId(R.id.rvList)).perform(RecyclerViewActions.actionOnItemAtPosition(targetPosition, click()));
         onView(withId(R.id.tvLink)).perform(click());
-        intended(allOf(hasAction(Intent.ACTION_VIEW), hasData(URL)));
+        intended(hasAction(Intent.ACTION_VIEW));
     }
 }

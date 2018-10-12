@@ -3,17 +3,22 @@ package com.example.ozakharc.redditclient.detailed;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ozakharc.redditclient.ProgressListener;
 import com.example.ozakharc.redditclient.R;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.utils.Constants;
 import com.example.ozakharc.redditclient.utils.DateConverter;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,8 +46,16 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
     @BindView(R.id.tvLink)
     TextView tvLink;
 
+    private ProgressListener listener;
+
+    @VisibleForTesting
+    public void setProgressListener(ProgressListener progressListener) {
+        listener = progressListener;
+    }
+
     DetailedActivityContract.Presenter presenter;
     Dialog dialog;
+    final AtomicBoolean loadedDialogImage = new AtomicBoolean();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +93,16 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.image_dialog);
         ImageView image = dialog.findViewById(R.id.image);
-        Picasso.with(this).load(imageUrl).into(image);
+        listener.onProgressShown();
+        Picasso.with(this).load(imageUrl).into(image, new Callback.EmptyCallback(){
+            @Override
+            public void onSuccess() {
+                super.onSuccess();
+                loadedDialogImage.set(true);
+                listener.onProgressDismissed();
+            }
+        });
+
         image.setOnClickListener(v -> presenter.onDialogImageClicked());
         dialog.show();
 
@@ -112,9 +134,14 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         dialog = null;
     }
 
-
     @Override
     public boolean isDialogVisible() {
         return dialog != null;
+    }
+
+
+    @VisibleForTesting
+    public boolean isInProgress() {
+        return !loadedDialogImage.get();
     }
 }

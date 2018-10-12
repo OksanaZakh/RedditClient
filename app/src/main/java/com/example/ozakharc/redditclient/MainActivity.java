@@ -3,6 +3,7 @@ package com.example.ozakharc.redditclient;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -25,16 +26,14 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
 
+
+
     private MainActivityContract.Presenter presenter;
 
     private ProgressListener listener;
     private boolean isInProgress;
 
-    public interface ProgressListener {
-       void onProgressShown();
-       void onProgressDismissed();
-    }
-
+    @VisibleForTesting
     public void setProgressListener(ProgressListener progressListener) {
         listener = progressListener;
     }
@@ -126,8 +125,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         }
     }
 
+    @VisibleForTesting
     public boolean isInProgress() {
         return isInProgress;
+    }
+
+    @VisibleForTesting
+    public List<NewsItem> getAllNewsItems(){
+        return this.presenter.getNewsItems();
     }
 
 }

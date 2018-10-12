@@ -1,5 +1,7 @@
 package com.example.ozakharc.redditclient;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
 import com.example.ozakharc.redditclient.api.response.Child;
@@ -99,5 +101,9 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
         this.limit = limit;
     }
 
-
+    @VisibleForTesting
+    @Override
+    public List<NewsItem> getNewsItems() {
+        return newsItems;
+    }
 }

@@ -1,18 +1,22 @@
 package com.example.ozakharc.redditclient.helpers;
 
 import android.support.test.espresso.IdlingResource;
+import android.util.Log;
 
-import com.example.ozakharc.redditclient.MainActivity;
+import com.example.ozakharc.redditclient.MvpView;
+import com.example.ozakharc.redditclient.ProgressListener;
 
 public class ProgressIdlingResource implements IdlingResource{
+    private static final String TAG = "ProgressIdlingResource";
 
     private IdlingResource.ResourceCallback resourceCallback;
-    private MainActivity mainActivity;
+    private MvpView mainActivity;
 
-    public ProgressIdlingResource(MainActivity activity){
+    public ProgressIdlingResource(MvpView activity){
         mainActivity = activity;
 
-        MainActivity.ProgressListener progressListener = new MainActivity.ProgressListener() {
+        Log.d(TAG, "ProgressIdlingResource: "+mainActivity.getClass().getSimpleName());
+        ProgressListener progressListener = new ProgressListener() {
             @Override
             public void onProgressShown() {
             }
