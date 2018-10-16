@@ -1,6 +1,5 @@
 package com.example.ozakharc.redditclient;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -12,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.api.NewsItem;
@@ -33,10 +31,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     private ProgressListener listener;
     private boolean isInProgress;
 
-    @VisibleForTesting
-    public void setProgressListener(ProgressListener progressListener) {
-        listener = progressListener;
-    }
+    private InternetConnection connection;
 
     @BindView(R.id.rvList)
     RecyclerView rvList;
@@ -51,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         ButterKnife.bind(this);
-
-        this.presenter = new MainPresenter(new NetworkManagerImpl(new InternetConnectionImpl(this)));
+        connection=new InternetConnectionImpl(this);
+        this.presenter = new MainPresenter(new NetworkManagerImpl(connection));
         presenter.attachView(this);
         presenter.loadData();
         setAdapter();
@@ -135,4 +130,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         return this.presenter.getNewsItems();
     }
 
+    @VisibleForTesting
+    public void setProgressListener(ProgressListener progressListener) {
+        listener = progressListener;
+    }
+
+    @VisibleForTesting
+    public InternetConnection getConnection() {
+        return connection;
+    }
 }

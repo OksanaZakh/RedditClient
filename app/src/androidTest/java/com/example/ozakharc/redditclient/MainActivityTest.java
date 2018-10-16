@@ -5,11 +5,6 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.GeneralLocation;
-import android.support.test.espresso.action.GeneralSwipeAction;
-import android.support.test.espresso.action.Press;
-import android.support.test.espresso.action.Swipe;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -23,6 +18,7 @@ import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.helpers.ActivityIdentification;
 import com.example.ozakharc.redditclient.helpers.ProgressIdlingResource;
+import com.example.ozakharc.redditclient.helpers.SwipeUpHelper;
 import com.example.ozakharc.redditclient.utils.DateConverter;
 
 import org.hamcrest.Description;
@@ -126,7 +122,6 @@ public class MainActivityTest {
         IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
-
     @Test
     public void loadDifferentItems_withPagination_checkItsCount() {
         int numItemsLoadedFirst=20;
@@ -136,12 +131,12 @@ public class MainActivityTest {
         //First call for loading
         onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(numItemsLoadedFirst-1));
         assertEquals(numItemsLoadedFirst, getNewsItemsLoaded().size());
-        onView(ViewMatchers.withId(R.id.rvList)).perform(swipeUp());
+        onView(ViewMatchers.withId(R.id.rvList)).perform(SwipeUpHelper.swipeUp());
 
         //Second call for loading
         onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(numItemsLoadedSecondTime-1));
         assertEquals(numItemsLoadedSecondTime, getNewsItemsLoaded().size());
-        onView(ViewMatchers.withId(R.id.rvList)).perform(swipeUp());
+        onView(ViewMatchers.withId(R.id.rvList)).perform(SwipeUpHelper.swipeUp());
 
         //Third call for loading
         onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(numItemsLoadedThirdTime-1));
@@ -181,11 +176,6 @@ public class MainActivityTest {
                 return itemMatcher.matches(viewHolder.itemView);
             }
         };
-    }
-
-    public static ViewAction swipeUp() {
-        return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
-                GeneralLocation.TOP_CENTER, Press.FINGER);
     }
 
 }

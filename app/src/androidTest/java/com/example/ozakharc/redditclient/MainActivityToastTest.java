@@ -2,11 +2,14 @@ package com.example.ozakharc.redditclient;
 
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 
 import com.example.ozakharc.redditclient.helpers.ProgressIdlingResource;
+import com.example.ozakharc.redditclient.helpers.SwipeUpHelper;
 import com.example.ozakharc.redditclient.utils.Constants;
 
 import org.junit.After;
@@ -47,8 +50,13 @@ public class MainActivityToastTest {
 
     @Test
     public void showMessage_whenNoInternetConnection() {
+        int numItemsLoaded=20;
+        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(numItemsLoaded-1));
+        activityTestRule.getActivity().getConnection().setNotAvailable();
+        onView(ViewMatchers.withId(R.id.rvList)).perform(SwipeUpHelper.swipeUp());
         onView(withText(Constants.NO_INTERNET_MESSAGE))
                 .inRoot(withDecorView(not(is(activityTestRule.getActivity().getWindow()
                         .getDecorView())))).check(matches(isDisplayed()));
     }
+
 }
