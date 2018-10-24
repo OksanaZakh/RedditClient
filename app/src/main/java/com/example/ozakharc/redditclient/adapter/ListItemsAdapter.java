@@ -15,8 +15,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
+public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    AdapterPresenter presenter=new AdapterPresenter(this);
+
+    int numItemsInPage=11;
     private List<NewsItem> items;
     private OnItemClickListener onItemClickListener;
 
@@ -27,38 +30,57 @@ public class ListItemsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
 
     @NonNull
     @Override
-    public NewsItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.news_item_view_holder, viewGroup, false);
-        return new NewsItemViewHolder(view);
+        View view;
+        if (i == 0) {
+            view = inflater.inflate(R.layout.news_item_separator, viewGroup, false);
+            return new SeparatorViewHolder(view);
+        } else {
+            view = inflater.inflate(R.layout.news_item_view_holder, viewGroup, false);
+            return new NewsItemViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int i) {
-        holder.tvAuthor.setText(items.get(i).getAuthor());
-        holder.tvDate.setText(DateConverter.getStringDate(items.get(i).getCreatedUtc()));
-        holder.tvTitle.setText(items.get(i).getTitle());
+    public int getItemViewType(int position) {
+        return position % numItemsInPage * numItemsInPage;
+    }
 
-        if (URLUtil.isValidUrl(items.get(i).getThumbnail())) {
-            holder.tvThumbnail.setVisibility(View.VISIBLE);
-            Picasso.with(App.getInstance()).load(items.get(i).getThumbnail()).into(holder.tvThumbnail);
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        if (viewHolder.getItemViewType() == 0) {
+            SeparatorViewHolder holder = (SeparatorViewHolder) viewHolder;
+            String pageNumber=(i/numItemsInPage+1)+"";
+            holder.tvPageNumber.setText(pageNumber);
         } else {
-            holder.tvThumbnail.setVisibility(View.GONE);
-        }
-        holder.tvNumComments.setText(items.get(i).getNumComments().toString());
+            int itemPos=i-i/numItemsInPage-1;
+            NewsItemViewHolder holder = (NewsItemViewHolder) viewHolder;
+            holder.tvAuthor.setText(items.get(itemPos).getAuthor());
+            holder.tvDate.setText(DateConverter.getStringDate(items.get(itemPos).getCreatedUtc()));
+            holder.tvTitle.setText(items.get(itemPos).getTitle());
 
-        holder.itemView.setTag(i);
-        holder.itemView.setOnClickListener(v -> {
-            int position1 = (int) v.getTag();
-            if (onItemClickListener != null)
-                onItemClickListener.onItemClick(items.get(position1));
-        });
+            if (URLUtil.isValidUrl(items.get(itemPos).getThumbnail())) {
+                holder.tvThumbnail.setVisibility(View.VISIBLE);
+                Picasso.with(App.getInstance()).load(items.get(itemPos).getThumbnail()).into(holder.tvThumbnail);
+            } else {
+                holder.tvThumbnail.setVisibility(View.GONE);
+            }
+            holder.tvNumComments.setText(items.get(itemPos).getNumComments().toString());
+
+            holder.itemView.setTag(itemPos);
+            holder.itemView.setOnClickListener(v -> {
+                int position1 = (int) v.getTag();
+                if (onItemClickListener != null)
+                    onItemClickListener.onItemClick(items.get(position1));
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
         if (items != null) {
-            return items.size();
+            return items.size()+items.size()/numItemsInPage;
         } else return 0;
     }
 

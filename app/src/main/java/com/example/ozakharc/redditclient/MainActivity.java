@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     public void showData(List<NewsItem> newsItems) {
         adapter.setData(newsItems);
-        adapter.notifyDataSetChanged();
     }
 
     @Override
