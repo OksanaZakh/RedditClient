@@ -18,6 +18,10 @@ public interface DetailedActivityContract {
         boolean isDialogVisible();
 
         void populateView(NewsItem item);
+
+        void showProgressBar();
+
+        void hideProgressBar();
     }
 
     interface Presenter {
@@ -35,5 +39,7 @@ public interface DetailedActivityContract {
         void onBackClicked();
 
         void onDialogImageClicked();
+
+        void dialogImageLoaded();
     }
 }

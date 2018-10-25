@@ -17,6 +17,7 @@ public class DetailedPresenter extends PresenterBase<DetailedActivityContract.Vi
 
     @Override
     public void onImageClicked() {
+        view.showProgressBar();
         view.showDialog(item.getThumbnail());
     }
 
@@ -35,5 +36,10 @@ public class DetailedPresenter extends PresenterBase<DetailedActivityContract.Vi
         if (view.isDialogVisible()) {
             view.dismissDialog();
         }
+    }
+
+    @Override
+    public void dialogImageLoaded() {
+        view.hideProgressBar();
     }
 }

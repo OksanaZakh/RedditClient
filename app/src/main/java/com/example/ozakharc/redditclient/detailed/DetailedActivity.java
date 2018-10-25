@@ -7,7 +7,9 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.ozakharc.redditclient.ProgressListener;
@@ -45,6 +47,9 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
 
     @BindView(R.id.tvLink)
     TextView tvLink;
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     private ProgressListener listener;
 
@@ -96,9 +101,11 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         if (listener!=null) {
             listener.onProgressShown();
         }
-        Picasso.with(this).load(imageUrl).fit().centerCrop().into(image, new Callback.EmptyCallback(){
+        Picasso.with(this).load(imageUrl).fit().centerCrop().placeholder
+                (R.mipmap.ic_launcher).into(image, new Callback.EmptyCallback(){
             @Override
             public void onSuccess() {
+                presenter.dialogImageLoaded();
                 super.onSuccess();
                 loadedDialogImage.set(true);
                 if(listener!=null) {
@@ -143,6 +150,15 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
         return dialog != null;
     }
 
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
 
     @VisibleForTesting
     public boolean isInProgress() {
