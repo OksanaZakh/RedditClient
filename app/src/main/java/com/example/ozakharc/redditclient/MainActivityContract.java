@@ -2,6 +2,7 @@ package com.example.ozakharc.redditclient;
 
 import android.support.annotation.VisibleForTesting;
 
+import com.example.ozakharc.redditclient.adapter.ListItemsContract;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.adapter.OnItemClickListener;
 
@@ -9,22 +10,20 @@ import java.util.List;
 
 public interface MainActivityContract {
 
-    interface View extends MvpView, OnItemClickListener {
+    interface View extends MvpView {
 
         void showAlert(String message);
 
         void startNewActivity(NewsItem item);
-
-        void showData(List<NewsItem> newsItems);
 
         void showProgressBar();
 
         void hideProgressBar();
     }
 
-    interface Presenter {
+    interface Presenter extends OnItemClickListener{
 
-        void onItemClick(int item);
+        void setAdapterPresenter(ListItemsContract.ListItemsPresenter presenter);
 
         void addNewsItem(NewsItem item);
 
@@ -36,7 +35,6 @@ public interface MainActivityContract {
 
         @VisibleForTesting
         List<NewsItem> getNewsItems();
-
     }
 
 

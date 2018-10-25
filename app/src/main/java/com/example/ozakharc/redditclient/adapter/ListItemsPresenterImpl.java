@@ -1,54 +1,53 @@
 package com.example.ozakharc.redditclient.adapter;
 
-import android.util.Log;
-
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.utils.DateConverter;
 
 import java.util.List;
 
-public class AdapterPresenter {
+public class ListItemsPresenterImpl implements ListItemsContract.ListItemsPresenter {
 
-    private static final String TAG = "AdapterPresenter";
-
-    public AdapterPresenter(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
-    ListItemsAdapter adapter;
-    int numItemsInPage = 11;
+    private ListItemsContract.ListItemsAdapter adapter;
+    private final int numItemsInPage = 11;
     private List<NewsItem> items;
     private OnItemClickListener onItemClickListener;
 
 
-    public void setAdapter(ListItemsAdapter adapter) {
+    @Override
+    public void setClickListener(OnItemClickListener clickListener) {
+        this.onItemClickListener = clickListener;
+    }
+
+    @Override
+    public void setAdapter(ListItemsContract.ListItemsAdapter adapter) {
         this.adapter = adapter;
     }
 
+    @Override
     public int calculateItemType(int position) {
         return position % numItemsInPage * numItemsInPage;
     }
 
+    @Override
     public void setData(List<NewsItem> items) {
         this.items = items;
         adapter.notifyDataSetChanged();
     }
 
+    @Override
     public int calculateItemsCount() {
         if (items != null) {
             return items.size() + items.size() / numItemsInPage;
         } else return 0;
     }
 
+    @Override
     public void onBindRepositoryRowViewAtPosition(int position, RowView viewHolder) {
         if (calculateItemType(position) == 0) {
-            Log.d(TAG, "onBindRepositoryRowViewAtPosition: separator"+calculateItemType(position));
             SeparatorRowView holder = (SeparatorRowView) viewHolder;
             String pageNumber = (position / numItemsInPage + 1) + "";
             holder.setPageNumber(pageNumber);
-            return;
         } else {
-            Log.d(TAG, "onBindRepositoryRowViewAtPosition: item"+calculateItemType(position));
             int itemPos = position - position / numItemsInPage - 1;
             ItemRowView itemHolder = (ItemRowView) viewHolder;
             itemHolder.setAuthor(items.get(itemPos).getAuthor());
@@ -57,7 +56,6 @@ public class AdapterPresenter {
             itemHolder.setThumbnail(items.get(itemPos).getThumbnail());
             itemHolder.setComments(items.get(itemPos).getNumComments().toString());
             itemHolder.setClickListener(itemPos, onItemClickListener);
-            return;
         }
     }
 }

@@ -6,7 +6,7 @@ import android.view.View;
 
 abstract class AbstractViewHolder extends RecyclerView.ViewHolder implements RowView {
 
-    public AbstractViewHolder(@NonNull View itemView) {
+    AbstractViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 }

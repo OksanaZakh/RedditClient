@@ -12,11 +12,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.ozakharc.redditclient.adapter.AdapterPresenter;
+import com.example.ozakharc.redditclient.adapter.ListItemsContract;
+import com.example.ozakharc.redditclient.adapter.ListItemsPresenterImpl;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.utils.Constants;
-import com.example.ozakharc.redditclient.adapter.ListItemsAdapter;
+import com.example.ozakharc.redditclient.adapter.ListItemsAdapterImpl;
 
 import java.util.List;
 
@@ -24,8 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
-
-
 
     private MainActivityContract.Presenter presenter;
 
@@ -40,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    private ListItemsAdapter adapter;
-    AdapterPresenter adapterPresenter;
+    private ListItemsAdapterImpl adapter;
+    ListItemsContract.ListItemsPresenter listItemsPresenterImpl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +54,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         setAdapter();
     }
 
-    @Override
-    public void showData(List<NewsItem> newsItems) {
-        adapterPresenter.setData(newsItems);
-    }
+//    @Override
+//    public void showData(List<NewsItem> newsItems) {
+//        listItemsPresenterImpl.setData(newsItems);
+//    }
 
     @Override
     public void showAlert(String message) {
@@ -75,8 +74,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     private void setAdapter() {
-        adapterPresenter=new AdapterPresenter(this);
-        adapter = new ListItemsAdapter(adapterPresenter);
+        listItemsPresenterImpl =new ListItemsPresenterImpl();
+        presenter.setAdapterPresenter(listItemsPresenterImpl);
+       // listItemsPresenterImpl.setClickListener(this);
+        adapter = new ListItemsAdapterImpl(listItemsPresenterImpl);
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setAdapter(adapter);
@@ -91,10 +92,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         });
     }
 
-    @Override
-    public void onItemClick(int item) {
-        presenter.onItemClick(item);
-    }
+//    @Override
+//    public void onItemClick(int item) {
+//        presenter.onItemClick(item);
+//    }
 
     @Override
     public void startNewActivity(NewsItem item) {
