@@ -24,7 +24,7 @@ public interface MainActivityContract {
 
     interface Presenter {
 
-        void onItemClick(NewsItem item);
+        void onItemClick(int item);
 
         void addNewsItem(NewsItem item);
 

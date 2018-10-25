@@ -4,5 +4,5 @@ import com.example.ozakharc.redditclient.api.NewsItem;
 
 
 public interface OnItemClickListener {
-    void onItemClick(NewsItem item);
+    void onItemClick(int item);
 }

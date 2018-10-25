@@ -35,8 +35,8 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
     }
 
     @Override
-    public void onItemClick(NewsItem item) {
-        view.startNewActivity(item);
+    public void onItemClick(int item) {
+        view.startNewActivity(newsItems.get(item-1-item/10));
     }
 
     @Override

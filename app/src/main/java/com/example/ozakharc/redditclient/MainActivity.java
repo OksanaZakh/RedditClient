@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.ozakharc.redditclient.adapter.AdapterPresenter;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.utils.Constants;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     ProgressBar progressBar;
 
     private ListItemsAdapter adapter;
+    AdapterPresenter adapterPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void showData(List<NewsItem> newsItems) {
-        adapter.setData(newsItems);
+        adapterPresenter.setData(newsItems);
     }
 
     @Override
@@ -73,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     private void setAdapter() {
-        adapter = new ListItemsAdapter();
-        adapter.setOnItemClickListener(this);
+        adapterPresenter=new AdapterPresenter(this);
+        adapter = new ListItemsAdapter(adapterPresenter);
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setAdapter(adapter);
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     @Override
-    public void onItemClick(NewsItem item) {
+    public void onItemClick(int item) {
         presenter.onItemClick(item);
     }
 
