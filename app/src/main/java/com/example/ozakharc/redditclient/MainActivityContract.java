@@ -2,7 +2,7 @@ package com.example.ozakharc.redditclient;
 
 import android.support.annotation.VisibleForTesting;
 
-import com.example.ozakharc.redditclient.adapter.ListItemsContract;
+import com.example.ozakharc.redditclient.adapter.NewsItemsContract;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.adapter.OnItemClickListener;
 
@@ -23,7 +23,7 @@ public interface MainActivityContract {
 
     interface Presenter extends OnItemClickListener{
 
-        void setAdapterPresenter(ListItemsContract.ListItemsPresenter presenter);
+        void setAdapterPresenter(NewsItemsContract.Presenter presenter);
 
         void addNewsItem(NewsItem item);
 

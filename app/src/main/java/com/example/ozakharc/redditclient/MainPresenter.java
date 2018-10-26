@@ -2,7 +2,7 @@ package com.example.ozakharc.redditclient;
 
 import android.support.annotation.VisibleForTesting;
 
-import com.example.ozakharc.redditclient.adapter.ListItemsContract;
+import com.example.ozakharc.redditclient.adapter.NewsItemsContract;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
 import com.example.ozakharc.redditclient.api.response.Child;
@@ -18,12 +18,13 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
     private NetworkManager networkManager;
     private int limit=20;
     private String after="";
-    private ListItemsContract.ListItemsPresenter listPresenter;
+    private NewsItemsContract.Presenter adapterPresenter;
 
     @Override
-    public void setAdapterPresenter(ListItemsContract.ListItemsPresenter presenter) {
-        this.listPresenter=presenter;
-        listPresenter.setClickListener(this);
+    public void setAdapterPresenter(NewsItemsContract.Presenter adapterPresenter) {
+        this.adapterPresenter =adapterPresenter;
+        this.adapterPresenter.setClickListener(this);
+        adapterPresenter.attacheMainPresenter(this);
     }
 
     public MainPresenter(NetworkManager networkManager) {
@@ -51,7 +52,7 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
         if (isViewAttached()) {
             view.hideProgressBar();
             newsItems.add(item);
-            listPresenter.setData(newsItems);
+            adapterPresenter.setData(newsItems);
         }
     }
 

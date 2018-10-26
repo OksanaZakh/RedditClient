@@ -1,7 +1,6 @@
 package com.example.ozakharc.redditclient;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,13 +11,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.ozakharc.redditclient.adapter.ListItemsContract;
-import com.example.ozakharc.redditclient.adapter.ListItemsPresenterImpl;
+import com.example.ozakharc.redditclient.adapter.NewsItemsContract;
+import com.example.ozakharc.redditclient.adapter.NewsItemsPresenterImpl;
 import com.example.ozakharc.redditclient.customnetworkmanager.HandleThreadNetwork;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.utils.Constants;
-import com.example.ozakharc.redditclient.adapter.ListItemsAdapterImpl;
+import com.example.ozakharc.redditclient.adapter.NewsItemsAdapter;
 
 import java.util.List;
 
@@ -40,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    private ListItemsAdapterImpl adapter;
-    ListItemsContract.ListItemsPresenter listItemsPresenterImpl;
+    private NewsItemsAdapter adapter;
+    NewsItemsContract.Presenter newsItemsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,22 +71,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     private void setAdapter() {
-        listItemsPresenterImpl =new ListItemsPresenterImpl();
-        presenter.setAdapterPresenter(listItemsPresenterImpl);
-       // listItemsPresenterImpl.setClickListener(this);
-        adapter = new ListItemsAdapterImpl(listItemsPresenterImpl);
+        newsItemsPresenter =new NewsItemsPresenterImpl();
+        presenter.setAdapterPresenter(newsItemsPresenter);
+       // newsItemsPresenter.setClickListener(this);
+        adapter = new NewsItemsAdapter(newsItemsPresenter);
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setAdapter(adapter);
-        rvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(1)) {
-                    presenter.loadData();
-                }
-            }
-        });
+//        rvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (!recyclerView.canScrollVertically(1)) {
+//                    presenter.loadData();
+//                }
+//            }
+//        });
     }
 
     @Override
