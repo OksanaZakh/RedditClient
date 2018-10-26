@@ -34,6 +34,7 @@ public class NewsItemsAdapter extends RecyclerView.Adapter<AbstractViewHolder> i
         });
     }
 
+
     @NonNull
     @Override
     public AbstractViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
