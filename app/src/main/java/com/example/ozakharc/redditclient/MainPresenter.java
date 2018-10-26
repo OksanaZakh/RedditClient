@@ -100,6 +100,11 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
         return imageUrl;
     }
 
+    @Override
+    public void cleanUp() {
+        networkManager.cleanUp();
+    }
+
     public void setAfter(String after) {
         this.after = after;
     }

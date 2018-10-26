@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.ozakharc.redditclient.adapter.ListItemsContract;
 import com.example.ozakharc.redditclient.adapter.ListItemsPresenterImpl;
+import com.example.ozakharc.redditclient.customnetworkmanager.HandleThreadNetwork;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.utils.Constants;
@@ -48,16 +49,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         setContentView(R.layout.activity_list);
         ButterKnife.bind(this);
         connection=new InternetConnectionImpl(this);
-        this.presenter = new MainPresenter(new NetworkManagerImpl(connection));
+        //this.presenter = new MainPresenter(new NetworkManagerImpl(connection));
+
+        this.presenter = new MainPresenter(new HandleThreadNetwork(connection));
         presenter.attachView(this);
         presenter.loadData();
         setAdapter();
     }
-
-//    @Override
-//    public void showData(List<NewsItem> newsItems) {
-//        listItemsPresenterImpl.setData(newsItems);
-//    }
 
     @Override
     public void showAlert(String message) {
@@ -92,11 +90,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         });
     }
 
-//    @Override
-//    public void onItemClick(int item) {
-//        presenter.onItemClick(item);
-//    }
-
     @Override
     public void startNewActivity(NewsItem item) {
         Intent activityIntent = new Intent(this, DetailedActivity.class);
@@ -120,6 +113,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         if(listener!=null){
             listener.onProgressDismissed();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        presenter.cleanUp();
+        super.onStop();
     }
 
     @VisibleForTesting

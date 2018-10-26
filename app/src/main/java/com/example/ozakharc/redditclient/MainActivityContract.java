@@ -33,6 +33,8 @@ public interface MainActivityContract {
 
         void loadData();
 
+        void cleanUp();
+
         @VisibleForTesting
         List<NewsItem> getNewsItems();
     }

@@ -49,4 +49,8 @@ public class NetworkManagerImpl implements NetworkManager {
         }
     }
 
+    @Override
+    public void cleanUp() {
+
+    }
 }
