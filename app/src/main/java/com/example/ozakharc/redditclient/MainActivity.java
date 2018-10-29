@@ -16,6 +16,7 @@ import com.example.ozakharc.redditclient.adapter.NewsItemsPresenterImpl;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.networkmanager.HandleThreadNetwork;
+import com.example.ozakharc.redditclient.networkmanager.ThreadPoolNetwork;
 import com.example.ozakharc.redditclient.utils.Constants;
 import com.example.ozakharc.redditclient.adapter.NewsItemsAdapter;
 
@@ -49,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         ButterKnife.bind(this);
         connection=new InternetConnectionImpl(this);
         //this.presenter = new MainPresenter(new RetrofitNetworkManager(connection));
-
-        this.presenter = new MainPresenter(new HandleThreadNetwork(connection));
+        //this.presenter = new MainPresenter(new HandleThreadNetwork(connection));
+        this.presenter = new MainPresenter(new ThreadPoolNetwork(connection));
         presenter.attachView(this);
         presenter.loadData();
         setAdapter();
@@ -73,9 +74,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     private void setAdapter() {
         newsItemsPresenter =new NewsItemsPresenterImpl();
         presenter.setAdapterPresenter(newsItemsPresenter);
-       // newsItemsPresenter.setClickListener(this);
         adapter = new NewsItemsAdapter(newsItemsPresenter);
-
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setAdapter(adapter);
     }
