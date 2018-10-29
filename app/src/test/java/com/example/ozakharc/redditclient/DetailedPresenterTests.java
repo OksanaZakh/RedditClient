@@ -46,7 +46,7 @@ public class DetailedPresenterTests {
     @Test
     public void onImageClicked_showImageDialog() {
         String photoUrl = "photoUrl";
-        item.setPhotoUrl(photoUrl);
+        item.setThumbnail(photoUrl);
         presenter.setNewsItem(item);
         presenter.onImageClicked();
         verify(mockedView).showDialog(eq(photoUrl));

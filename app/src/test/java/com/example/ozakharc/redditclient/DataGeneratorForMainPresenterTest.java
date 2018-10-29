@@ -17,7 +17,8 @@ public class DataGeneratorForMainPresenterTest {
 
     public static String after = "after";
     public static String author = "author";
-    public static long createdUtc = 675776575785L;
+    public static long createdUtc = 6757765757L;
+    public static String date="22 Feb 2184";
     public static int numComments = 5;
     public static String selftext = "selftext";
     public static String thumbnail = "thumbnail";

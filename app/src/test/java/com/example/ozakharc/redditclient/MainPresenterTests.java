@@ -1,5 +1,6 @@
 package com.example.ozakharc.redditclient;
 
+import com.example.ozakharc.redditclient.adapter.NewsItemsContract;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
 import com.example.ozakharc.redditclient.networkmanager.NetworkManager;
@@ -27,6 +28,8 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 public class MainPresenterTests {
 
     @Mock
+    private NewsItemsContract.Presenter mockedItemsPresenter;
+    @Mock
     private NetworkManager mockedNetworkManager;
     @Mock
     private MainActivityContract.View mockedView;
@@ -36,6 +39,17 @@ public class MainPresenterTests {
     @Before
     public void setup() {
         presenter.attachView(mockedView);
+        presenter.setAdapterPresenter(mockedItemsPresenter);
+    }
+
+    @Test
+    public void setAdapterPresenter_setClickListener(){
+        verify(mockedItemsPresenter).setClickListener(presenter);
+    }
+
+    @Test
+    public void setAdapterPresenter_attachMainPresenter_toAdapterPresenter(){
+        verify(mockedItemsPresenter).attacheMainPresenter(presenter);
     }
 
     @Test
@@ -73,7 +87,8 @@ public class MainPresenterTests {
     @Test
     public void onItemClick_callView_toStartNewActivity() {
         NewsItem item = new NewsItem();
-        presenter.onItemClick(item);
+        presenter.addNewsItem(item);
+        presenter.onItemClick(0);
         verify(mockedView).startNewActivity(eq(item));
     }
 
@@ -101,7 +116,7 @@ public class MainPresenterTests {
         List<NewsItem> items = new ArrayList<>();
         items.add(item);
         presenter.addNewsItem(item);
-        verify(mockedView).showData(eq(items));
+        verify(mockedItemsPresenter).setData(eq(items));
     }
 
     @Test
@@ -147,12 +162,18 @@ public class MainPresenterTests {
     }
 
     @Test
+    public void cleanUp_callNetworkManager(){
+        presenter.cleanUp();
+        verify(mockedNetworkManager).cleanUp();
+    }
+
+    @Test
     public void onGettingSuccessResponse_retrieveCorrectDataFromResponse_withCorrectImageUrl() {
         BaseResponse baseResponse=DataGeneratorForMainPresenterTest
                 .createBaseResponse();
         List<NewsItem> items=DataGeneratorForMainPresenterTest.createNewsItem();
         presenter.onSuccessResponse(baseResponse);
-        verify(mockedView).showData(eq(items));
+        verify(mockedItemsPresenter).setData(eq(items));
     }
 
     @Test
@@ -161,6 +182,6 @@ public class MainPresenterTests {
                 .createBaseResponseWithEmptyImageUrl();
         List<NewsItem> items=DataGeneratorForMainPresenterTest.createNewsItemWithEmptyImageUrl();
         presenter.onSuccessResponse(baseResponse);
-        verify(mockedView).showData(eq(items));
+        verify(mockedItemsPresenter).setData(eq(items));
     }
 }

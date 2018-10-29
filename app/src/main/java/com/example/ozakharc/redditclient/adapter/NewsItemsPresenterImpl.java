@@ -16,7 +16,7 @@ public class NewsItemsPresenterImpl implements NewsItemsContract.Presenter {
 
     @Override
     public void attacheMainPresenter(MainActivityContract.Presenter presenter) {
-        this.mainPresenter=presenter;
+        this.mainPresenter = presenter;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class NewsItemsPresenterImpl implements NewsItemsContract.Presenter {
 
     @Override
     public int getItemType(int position) {
-        return position % (itemsPerPage +1);
+        return position % (itemsPerPage + 1);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class NewsItemsPresenterImpl implements NewsItemsContract.Presenter {
     @Override
     public int getItemCount() {
         if (items != null) {
-            return items.size() + items.size() / (itemsPerPage +1);
+            return items.size() + items.size() / (itemsPerPage + 1) + 1;
         } else return 0;
     }
 
@@ -59,7 +59,7 @@ public class NewsItemsPresenterImpl implements NewsItemsContract.Presenter {
             String pageNumber = (position / itemsPerPage + 1) + "";
             holder.setPageNumber(pageNumber);
         } else {
-            int itemPos = position - position / (itemsPerPage +1)-1;
+            int itemPos = position - position / (itemsPerPage + 1) - 1;
             ItemRowView itemHolder = (ItemRowView) viewHolder;
             itemHolder.setAuthor(items.get(itemPos).getAuthor());
             itemHolder.setDate(DateConverter.getStringDate(items.get(itemPos).getCreatedUtc()));
