@@ -1,4 +1,4 @@
-package com.example.ozakharc.redditclient;
+package com.example.ozakharc.redditclient.networkmanager;
 
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
 

@@ -2,6 +2,7 @@ package com.example.ozakharc.redditclient;
 
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
+import com.example.ozakharc.redditclient.networkmanager.NetworkManager;
 import com.example.ozakharc.redditclient.utils.Constants;
 
 import org.junit.Before;

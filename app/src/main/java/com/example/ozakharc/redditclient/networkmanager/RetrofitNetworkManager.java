@@ -1,5 +1,6 @@
-package com.example.ozakharc.redditclient;
+package com.example.ozakharc.redditclient.networkmanager;
 
+import com.example.ozakharc.redditclient.InternetConnection;
 import com.example.ozakharc.redditclient.api.APIService;
 import com.example.ozakharc.redditclient.api.RetrofitInstance;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
@@ -8,13 +9,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NetworkManagerImpl implements NetworkManager {
+public class RetrofitNetworkManager implements NetworkManager {
 
     private NetworkManagerListener networkManagerListener;
     private InternetConnection internetConnection;
     private APIService service;
 
-    public NetworkManagerImpl(InternetConnection internetConnection) {
+    public RetrofitNetworkManager(InternetConnection internetConnection) {
         this.internetConnection=internetConnection;
         service=RetrofitInstance.getRetrofitInstance().create(APIService.class);
     }

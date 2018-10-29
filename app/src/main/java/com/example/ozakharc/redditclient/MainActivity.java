@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import com.example.ozakharc.redditclient.adapter.NewsItemsContract;
 import com.example.ozakharc.redditclient.adapter.NewsItemsPresenterImpl;
-import com.example.ozakharc.redditclient.customnetworkmanager.HandleThreadNetwork;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.api.NewsItem;
+import com.example.ozakharc.redditclient.networkmanager.HandleThreadNetwork;
 import com.example.ozakharc.redditclient.utils.Constants;
 import com.example.ozakharc.redditclient.adapter.NewsItemsAdapter;
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         setContentView(R.layout.activity_list);
         ButterKnife.bind(this);
         connection=new InternetConnectionImpl(this);
-        //this.presenter = new MainPresenter(new NetworkManagerImpl(connection));
+        //this.presenter = new MainPresenter(new RetrofitNetworkManager(connection));
 
         this.presenter = new MainPresenter(new HandleThreadNetwork(connection));
         presenter.attachView(this);
@@ -78,15 +78,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setAdapter(adapter);
-//        rvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (!recyclerView.canScrollVertically(1)) {
-//                    presenter.loadData();
-//                }
-//            }
-//        });
     }
 
     @Override

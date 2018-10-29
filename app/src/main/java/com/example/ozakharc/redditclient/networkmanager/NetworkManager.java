@@ -1,4 +1,4 @@
-package com.example.ozakharc.redditclient;
+package com.example.ozakharc.redditclient.networkmanager;
 
 public interface NetworkManager {
 

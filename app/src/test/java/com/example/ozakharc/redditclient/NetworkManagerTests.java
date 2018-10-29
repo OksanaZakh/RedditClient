@@ -2,6 +2,9 @@ package com.example.ozakharc.redditclient;
 
 import com.example.ozakharc.redditclient.api.APIService;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
+import com.example.ozakharc.redditclient.networkmanager.NetworkManager;
+import com.example.ozakharc.redditclient.networkmanager.RetrofitNetworkManager;
+import com.example.ozakharc.redditclient.networkmanager.NetworkManagerListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +31,7 @@ public class NetworkManagerTests {
     @Mock
     private APIService mockedService;
     @InjectMocks
-    private NetworkManager networkManager=new NetworkManagerImpl(mockedInternetConnection);
+    private NetworkManager networkManager=new RetrofitNetworkManager(mockedInternetConnection);
     private final int limit=20;
     private final String after="";
 

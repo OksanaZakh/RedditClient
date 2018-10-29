@@ -1,8 +1,8 @@
 package com.example.ozakharc.redditclient.kotlintest
 
 import com.example.ozakharc.redditclient.InternetConnection
-import com.example.ozakharc.redditclient.NetworkManagerImpl
-import com.example.ozakharc.redditclient.NetworkManagerListener
+import com.example.ozakharc.redditclient.networkmanager.RetrofitNetworkManager
+import com.example.ozakharc.redditclient.networkmanager.NetworkManagerListener
 import com.example.ozakharc.redditclient.api.APIService
 import com.example.ozakharc.redditclient.api.response.BaseResponse
 
@@ -31,7 +31,7 @@ class NetworkManagerTestsKt {
     @Mock
     private val mockedService: APIService? = null
     @InjectMocks
-    private val networkManager = NetworkManagerImpl(mockedInternetConnection)
+    private val networkManager = RetrofitNetworkManager(mockedInternetConnection)
     private val limit = 20
     private val after = ""
 

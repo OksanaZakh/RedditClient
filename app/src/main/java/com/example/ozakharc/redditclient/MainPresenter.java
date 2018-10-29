@@ -6,6 +6,8 @@ import com.example.ozakharc.redditclient.adapter.NewsItemsContract;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
 import com.example.ozakharc.redditclient.api.response.Child;
+import com.example.ozakharc.redditclient.networkmanager.NetworkManager;
+import com.example.ozakharc.redditclient.networkmanager.NetworkManagerListener;
 import com.example.ozakharc.redditclient.utils.Constants;
 
 import java.util.ArrayList;
