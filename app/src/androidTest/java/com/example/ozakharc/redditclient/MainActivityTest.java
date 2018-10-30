@@ -70,7 +70,7 @@ public class MainActivityTest {
     public void scrollToItemBelowFold_checkItsText_andVisibility() {
         int targetItemPosition = 18;
         onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(targetItemPosition));
-        NewsItem item = getNewsItemsLoaded().get(targetItemPosition);
+        NewsItem item = getNewsItemsLoaded().get(targetItemPosition-2);
 
         onView(ViewMatchers.withId(R.id.rvList))
                 .check(matches(atPosition(targetItemPosition, hasDescendant(allOf(withText(R.string.posted_by), isDisplayed())))));
@@ -129,17 +129,17 @@ public class MainActivityTest {
         int numItemsLoadedThirdTime=60;
 
         //First call for loading
-        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(numItemsLoadedFirst-1));
+        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(numItemsLoadedFirst+1));
         assertEquals(numItemsLoadedFirst, getNewsItemsLoaded().size());
         onView(ViewMatchers.withId(R.id.rvList)).perform(SwipeUpHelper.swipeUp());
 
         //Second call for loading
-        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(numItemsLoadedSecondTime-1));
+        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(numItemsLoadedSecondTime+1));
         assertEquals(numItemsLoadedSecondTime, getNewsItemsLoaded().size());
         onView(ViewMatchers.withId(R.id.rvList)).perform(SwipeUpHelper.swipeUp());
 
         //Third call for loading
-        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(numItemsLoadedThirdTime-1));
+        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(numItemsLoadedThirdTime+1));
         assertEquals(numItemsLoadedThirdTime, getNewsItemsLoaded().size());
 
         //Check whether loaded items are unique
@@ -150,6 +150,25 @@ public class MainActivityTest {
         Assert.assertNotEquals(newsItemLastPositionFirstLoad, newsItemLastPositionSecondLoad);
         Assert.assertNotEquals(newsItemLastPositionThirdLoad, newsItemLastPositionSecondLoad);
         Assert.assertNotEquals(newsItemLastPositionFirstLoad, newsItemLastPositionThirdLoad);
+    }
+
+    @Test
+    public void checkPagesVisibility_andNumbering(){
+        onView(withId(R.id.page)).check(matches(allOf(isDisplayed(), withText(R.string.page))));
+        onView(withId(R.id.pageNumber)).check(matches(allOf(isDisplayed(), withText("1"))));
+
+        onView(withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(11));
+
+        onView(withId(R.id.page)).check(matches(allOf(isDisplayed(), withText(R.string.page))));
+        onView(withId(R.id.pageNumber)).check(matches(allOf(isDisplayed(), withText("2"))));
+
+        onView(withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(21));
+        onView(ViewMatchers.withId(R.id.rvList)).perform(SwipeUpHelper.swipeUp());
+
+        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(22));
+
+        onView(withId(R.id.page)).check(matches(allOf(isDisplayed(), withText(R.string.page))));
+        onView(withId(R.id.pageNumber)).check(matches(allOf(isDisplayed(), withText("3"))));
     }
 
 

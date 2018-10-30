@@ -17,6 +17,7 @@ import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.helpers.ActivityIdentification;
 import com.example.ozakharc.redditclient.helpers.DrawableMatcher;
 import com.example.ozakharc.redditclient.helpers.ProgressIdlingResource;
+import com.example.ozakharc.redditclient.helpers.SwipeUpHelper;
 import com.example.ozakharc.redditclient.utils.DateConverter;
 
 import org.junit.After;
@@ -99,16 +100,12 @@ public class DetailedActivityTest {
     public void checkDataVisibilityAndText() {
         int targetItemPosition = 3;
 
-        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.actionOnItemAtPosition(targetItemPosition, click()));
+        onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.actionOnItemAtPosition(targetItemPosition+1, click()));
         NewsItem item = mainActivityRule.getActivity().getAllNewsItems().get(targetItemPosition);
 
         onView(withId(R.id.tvAuthor)).check(matches(allOf(isDisplayed(), withText(item.getAuthor()))));
         onView(withId(R.id.tvTitle)).check(matches(allOf(isDisplayed(), withText(item.getTitle()))));
-        String date = DateConverter.getStringDate(item.getCreatedUtc());
-        onView(withId(R.id.tvDate)).check(matches(allOf(isDisplayed(), withText(date))));
-        if (!item.getUrl().trim().isEmpty()) {
-            onView(withId(R.id.tvLink)).check(matches(allOf(isDisplayed(), withText(item.getUrl()))));
-        }
+
         if (!item.getSelftext().trim().isEmpty()) {
             onView(withId(R.id.tvDescription)).check(matches(allOf(isDisplayed(), withText(item.getSelftext()))));
         }
@@ -118,7 +115,13 @@ public class DetailedActivityTest {
             onView(withId(R.id.ivPhoto)).check(matches(not(isDisplayed())));
         }
         onView(withId(R.id.tvPostedBy)).check(matches(allOf(isDisplayed(), withText(R.string.posted_by))));
+        onView(ViewMatchers.withId(R.id.llScrollContainer)).perform(SwipeUpHelper.swipeUp());
         onView(withId(R.id.tvDateText)).check(matches(allOf(isDisplayed(), withText(R.string.date))));
+        String date = DateConverter.getStringDate(item.getCreatedUtc());
+        onView(withId(R.id.tvDate)).check(matches(allOf(isDisplayed(), withText(date))));
+        if (!item.getUrl().trim().isEmpty()) {
+            onView(withId(R.id.tvLink)).check(matches(allOf(isDisplayed(), withText(item.getUrl()))));
+        }
     }
 
     @Test
@@ -133,7 +136,7 @@ public class DetailedActivityTest {
         }
 
         //Do to Detailed Activity and click on image
-        onView(withId(R.id.rvList)).perform(RecyclerViewActions.actionOnItemAtPosition(targetPosition, click()));
+        onView(withId(R.id.rvList)).perform(RecyclerViewActions.actionOnItemAtPosition(targetPosition+1, click()));
         onView(withId(R.id.tvTitle)).check(matches(allOf(isDisplayed(), withText(item.getTitle()))));
         onView(withId(R.id.ivPhoto)).perform(click());
 

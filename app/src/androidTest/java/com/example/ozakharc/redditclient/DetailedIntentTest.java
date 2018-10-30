@@ -54,12 +54,12 @@ public class DetailedIntentTest {
 
     @Test
     public void goToWebPage_whenLinkClicked() {
-        int targetPosition=0;
+        int targetPosition=1;
         onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(targetPosition+1));
-        NewsItem item=mainIntentRule.getActivity().getAllNewsItems().get(targetPosition);
+        NewsItem item=mainIntentRule.getActivity().getAllNewsItems().get(targetPosition-1);
         while(item.getUrl().isEmpty()){
             targetPosition++;
-            item=mainIntentRule.getActivity().getAllNewsItems().get(targetPosition);
+            item=mainIntentRule.getActivity().getAllNewsItems().get(targetPosition-1);
         }
         onView(withId(R.id.rvList)).perform(RecyclerViewActions.actionOnItemAtPosition(targetPosition, click()));
         onView(withId(R.id.tvLink)).perform(click());

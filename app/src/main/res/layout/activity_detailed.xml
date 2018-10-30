@@ -20,6 +20,7 @@
         android:layout_margin="16dp">
 
         <LinearLayout
+            android:id="@+id/llScrollContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

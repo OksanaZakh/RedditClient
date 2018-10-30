@@ -102,7 +102,7 @@ public class DetailedActivity extends AppCompatActivity implements DetailedActiv
             listener.onProgressShown();
         }
         Picasso.with(this).load(imageUrl).fit().centerCrop().placeholder
-                (R.mipmap.ic_launcher).into(image, new Callback.EmptyCallback(){
+                (R.drawable.ic_launcher_foreground).into(image, new Callback.EmptyCallback(){
             @Override
             public void onSuccess() {
                 presenter.dialogImageLoaded();

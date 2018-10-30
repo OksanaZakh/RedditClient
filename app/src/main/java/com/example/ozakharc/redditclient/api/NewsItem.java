@@ -110,4 +110,19 @@ public class NewsItem implements Serializable {
                 Objects.equals(photoUrl, item.photoUrl) &&
                 Objects.equals(url, item.url);
     }
+
+    @Override
+    public String toString() {
+        return "NewsItem{" +
+                "after='" + after + '\'' +
+                ", title='" + title + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", numComments=" + numComments +
+                ", author='" + author + '\'' +
+                ", createdUtc=" + createdUtc +
+                ", selftext='" + selftext + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }
