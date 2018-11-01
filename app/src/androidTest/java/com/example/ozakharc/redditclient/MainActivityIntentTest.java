@@ -47,7 +47,7 @@ public class MainActivityIntentTest {
     public void checkIntent_forLaunchingDetailedActivity() {
         int targetPosition=7;
         onView(ViewMatchers.withId(R.id.rvList)).perform(RecyclerViewActions.scrollToPosition(targetPosition)).perform(click());
-        NewsItem targetItem=rule.getActivity().getAllNewsItems().get(targetPosition-3);
+        NewsItem targetItem=rule.getActivity().getAllNewsItems().get(targetPosition-2);
         intended(allOf(hasComponent(DetailedActivity.class.getName()), hasExtra(Constants.NEWS_ITEM, targetItem)));
     }
 }
