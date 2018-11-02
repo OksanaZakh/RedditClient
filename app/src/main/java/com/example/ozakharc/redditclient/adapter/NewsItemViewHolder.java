@@ -51,7 +51,7 @@ public class NewsItemViewHolder extends AbstractViewHolder implements ItemRowVie
     public void setThumbnail(String thumbnail) {
         if (URLUtil.isValidUrl(thumbnail)){
                 tvThumbnail.setVisibility(View.VISIBLE);
-                Picasso.with(App.getInstance()).load(thumbnail).into(tvThumbnail);
+                Picasso.with(App.Companion.getInstance()).load(thumbnail).into(tvThumbnail);
             } else {
                 tvThumbnail.setVisibility(View.GONE);
             }

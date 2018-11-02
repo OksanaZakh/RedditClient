@@ -35,6 +35,7 @@ public class JsonParser {
             String selftext="";
             String photoUrl="";
             String url="";
+            String permalink="";
 
             JSONObject jsonObject=new JSONObject(s);
             JSONObject dataObj=jsonObject.getJSONObject("data");
@@ -54,6 +55,7 @@ public class JsonParser {
                 createdUtc=child.getLong("created_utc");
                 selftext=child.getString("selftext");
                 url=child.getString("url");
+                permalink=child.getString("permalink");
 //
 //                JSONObject preview=child.getJSONObject("preview");
 //                JSONArray imageArray=preview.getJSONArray("images");
@@ -70,6 +72,7 @@ public class JsonParser {
                 childDataObj.setThumbnail(thumbnail);
                 childDataObj.setTitle(title);
                 childDataObj.setUrl(url);
+                childDataObj.setPermalink(permalink);
                 Preview previewObj = new Preview();
                 List<Image> images = new ArrayList<>();
                 Image imageObj = new Image();

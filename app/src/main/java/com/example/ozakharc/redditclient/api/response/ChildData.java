@@ -21,6 +21,8 @@ public class ChildData {
 
     private String url;
 
+    private String permalink;
+
     public String getUrl() {
         return url;
     }
@@ -85,5 +87,13 @@ public class ChildData {
 
     public void setPreview(Preview preview) {
         this.preview = preview;
+    }
+
+    public String getPermalink() {
+        return permalink;
+    }
+
+    public void setPermalink(String permalink) {
+        this.permalink = permalink;
     }
 }

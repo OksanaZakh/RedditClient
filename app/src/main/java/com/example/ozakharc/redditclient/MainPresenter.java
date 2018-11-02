@@ -73,6 +73,7 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
             newsItem.setPhotoUrl(getPhotoUrl(child));
             newsItem.setAfter(after);
             newsItem.setUrl(child.getChildDta().getUrl());
+            newsItem.setPermalink(child.getChildDta().getPermalink());
             addNewsItem(newsItem);
         }
     }

@@ -65,7 +65,7 @@ public class NewsItemsPresenterImpl implements NewsItemsContract.Presenter {
             itemHolder.setDate(DateConverter.getStringDate(items.get(itemPos).getCreatedUtc()));
             itemHolder.setTitle(items.get(itemPos).getTitle());
             itemHolder.setThumbnail(items.get(itemPos).getThumbnail());
-            itemHolder.setComments(items.get(itemPos).getNumComments().toString());
+            itemHolder.setComments(items.get(itemPos).getNumComments()+"");
             itemHolder.setClickListener(itemPos, onItemClickListener);
         }
     }
