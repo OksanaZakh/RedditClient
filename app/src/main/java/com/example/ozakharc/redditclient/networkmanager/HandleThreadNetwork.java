@@ -45,4 +45,9 @@ public class HandleThreadNetwork implements NetworkManager {
     public void cleanUp() {
         thread.quit();
     }
+
+    @Override
+    public void getComments(String url) {
+
+    }
 }

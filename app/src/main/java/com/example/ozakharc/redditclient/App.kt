@@ -21,11 +21,11 @@ class App : Application() {
     }
 
     private fun createDb() {
-//        appDb = Room.databaseBuilder(applicationContext,
-//                DataBase::class.java, "database")
-//                .fallbackToDestructiveMigration()
-//                .allowMainThreadQueries()
-//                .build()
+        appDb = Room.databaseBuilder(applicationContext,
+                DataBase::class.java, "database")
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build()
     }
 
     fun getAppDb(): DataBase {

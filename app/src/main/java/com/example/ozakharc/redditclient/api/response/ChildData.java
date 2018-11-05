@@ -21,6 +21,16 @@ public class ChildData {
 
     private String url;
 
+    private String body;
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
     private String permalink;
 
     public String getUrl() {
@@ -95,5 +105,21 @@ public class ChildData {
 
     public void setPermalink(String permalink) {
         this.permalink = permalink;
+    }
+
+    @Override
+    public String toString() {
+        return "ChildData{" +
+                "title='" + title + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", numComments=" + numComments +
+                ", author='" + author + '\'' +
+                ", createdUtc=" + createdUtc +
+                ", selftext='" + selftext + '\'' +
+                ", url='" + url + '\'' +
+                ", body='" + body + '\'' +
+                ", permalink='" + permalink + '\'' +
+                ", preview=" + preview +
+                '}';
     }
 }

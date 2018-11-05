@@ -8,5 +8,7 @@ public interface NetworkManager {
 
     void cleanUp();
 
+    void getComments(String url);
+
 }
 

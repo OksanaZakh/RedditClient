@@ -3,7 +3,7 @@ package com.example.ozakharc.redditclient.model
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 
-@Database(entities = [ItemComment::class], version = 1)
+@Database(entities = [ItemComment::class], version = 5)
 abstract class DataBase : RoomDatabase() {
 
     abstract fun itemCommentDao(): ItemCommentDao

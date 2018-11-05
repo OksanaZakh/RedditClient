@@ -64,4 +64,9 @@ public class ThreadPoolNetwork implements NetworkManager {
             }
         }
     }
+
+    @Override
+    public void getComments(String url) {
+
+    }
 }
