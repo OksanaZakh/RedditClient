@@ -15,6 +15,7 @@ import com.example.ozakharc.redditclient.adapter.NewsItemsContract;
 import com.example.ozakharc.redditclient.adapter.NewsItemsPresenterImpl;
 import com.example.ozakharc.redditclient.detailed.DetailedActivity;
 import com.example.ozakharc.redditclient.api.NewsItem;
+import com.example.ozakharc.redditclient.detailed.binding.DetailedActivityNew;
 import com.example.ozakharc.redditclient.networkmanager.RetrofitNetworkManager;
 import com.example.ozakharc.redditclient.networkmanager.ThreadPoolNetwork;
 import com.example.ozakharc.redditclient.utils.Constants;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void startNewActivity(NewsItem item) {
-        Intent activityIntent = new Intent(this, DetailedActivity.class);
+        Intent activityIntent = new Intent(this, DetailedActivityNew.class);
         activityIntent.putExtra(Constants.NEWS_ITEM, item);
         startActivity(activityIntent);
     }
