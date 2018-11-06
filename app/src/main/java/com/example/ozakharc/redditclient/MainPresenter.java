@@ -1,7 +1,6 @@
 package com.example.ozakharc.redditclient;
 
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import com.example.ozakharc.redditclient.adapter.NewsItemsContract;
 import com.example.ozakharc.redditclient.api.NewsItem;
@@ -53,15 +52,11 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
     @Override
     public void onItemClick(int item) {
         ItemCommentDao dao = App.Companion.getInstance().getAppDb().itemCommentDao();
-        List<ItemComment> comments = dao.search(newsItems.get(item).getPermalink()).getValue();
-        permalink=newsItems.get(item).getPermalink();
-        if (comments != null) {
-            if (comments.isEmpty()) {
-                networkManager.getComments(newsItems.get(item).getPermalink());
-            }
-        } else {
+        List<ItemComment> comments = dao.searchSavedComments(newsItems.get(item).getPermalink());
+        permalink = newsItems.get(item).getPermalink();
+        if (comments.isEmpty()) {
             networkManager.getComments(newsItems.get(item).getPermalink());
-            view.showAlert("No such comments in db");
+            view.showAlert("Downloading comments");
         }
         view.startNewActivity(newsItems.get(item));
     }
@@ -91,6 +86,7 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
             newsItem.setAfter(after);
             newsItem.setUrl(child.getChildDta().getUrl());
             newsItem.setPermalink(child.getChildDta().getPermalink());
+            newsItem.setId(child.getChildDta().getId());
             addNewsItem(newsItem);
         }
     }
@@ -125,15 +121,12 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
     public void onSuccessCommentsResponse(BaseResponse baseResponse) {
         List<Child> children = baseResponse.getData().getChildren();
         if (children.size() > 0) {
-            Log.d(TAG, "onSuccessCommentsResponse: " + children.size());
-            Log.d(TAG, "onSuccessCommentsResponse: " + children.get(0).getChildDta());
             for (Child child : children) {
                 ItemComment comment = new ItemComment();
                 comment.setComment(child.getChildDta().getBody());
                 comment.setPermalink(permalink);
-                Log.d(TAG, "onSuccessCommentsResponse: "+comment);
+                comment.setId(child.getChildDta().getId());
                 App.Companion.getInstance().getAppDb().itemCommentDao().insert(comment);
-                Log.d(TAG, "onSuccessCommentsResponse: " + child.getChildDta().getBody());
             }
         }
     }

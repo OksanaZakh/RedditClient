@@ -12,10 +12,11 @@ data class NewsItem(var after: String,
                     var selftext: String,
                     var photoUrl: String,
                     var url: String,
-                    var permalink: String
+                    var permalink: String,
+                    var id: String
 ) : Serializable {
 
     constructor() : this("", "", "", 0, "", 0L,
-            "", "", "", "")
+            "", "", "", "", "")
 }
 
