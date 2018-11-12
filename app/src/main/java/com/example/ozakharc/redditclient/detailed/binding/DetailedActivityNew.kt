@@ -1,6 +1,8 @@
 package com.example.ozakharc.redditclient.detailed.binding
 
+import android.app.Dialog
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -9,26 +11,35 @@ import com.example.ozakharc.redditclient.api.NewsItem
 import com.example.ozakharc.redditclient.databinding.ActivityDetailedNewBinding
 import com.example.ozakharc.redditclient.utils.Constants
 import com.squareup.picasso.Picasso
-import android.databinding.BindingAdapter
+import android.net.Uri
 import android.widget.ImageView
 
 
 class DetailedActivityNew : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityDetailedNewBinding>(this,R.layout.activity_detailed_new)
-        binding.viewModel= ViewModelProviders.of(this, CustomViewModelFactory(
+        val binding = DataBindingUtil.setContentView<ActivityDetailedNewBinding>(this, R.layout.activity_detailed_new)
+        binding.viewModel = ViewModelProviders.of(this, CustomViewModelFactory(
                 intent.extras.get(Constants.NEWS_ITEM) as NewsItem))
                 .get(DetailedViewModel::class.java)
+        binding.activity = this
+        binding.setLifecycleOwner(this)
     }
 
-//    @BindingAdapter("app:url")
-//    fun loadImage(view: ImageView, url: String) {
-//        Picasso.with(view.getContext())
-//                .load(url)
-//                .placeholder(R.drawable.ic_launcher_foreground)
-//                .into(view)
-//    }
+    fun onLinkClicked(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
+    }
+
+    fun showDialog(imageUrl: String) {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.image_dialog)
+        val image = dialog.findViewById(R.id.image) as ImageView
+        Picasso.with(this).load(imageUrl).fit().centerCrop().placeholder(R.drawable.ic_launcher_foreground).into(image)
+        image.setOnClickListener { v -> dialog.dismiss() }
+        dialog.show()
+    }
 }
 

@@ -8,4 +8,8 @@ data class ItemComment(@PrimaryKey(autoGenerate = false) var id: String,
                        var comment: String,
                        var permalink: String) {
     constructor() : this("", "", "")
+
+    override fun toString(): String {
+        return comment
+    }
 }
