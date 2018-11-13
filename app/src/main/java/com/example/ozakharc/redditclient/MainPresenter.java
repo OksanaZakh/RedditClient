@@ -6,8 +6,8 @@ import com.example.ozakharc.redditclient.adapter.NewsItemsContract;
 import com.example.ozakharc.redditclient.api.NewsItem;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
 import com.example.ozakharc.redditclient.api.response.Child;
-import com.example.ozakharc.redditclient.model.ItemComment;
-import com.example.ozakharc.redditclient.model.ItemCommentDao;
+import com.example.ozakharc.redditclient.model.RepositoryManager;
+import com.example.ozakharc.redditclient.model.RepositoryManagerImpl;
 import com.example.ozakharc.redditclient.networkmanager.NetworkManager;
 import com.example.ozakharc.redditclient.networkmanager.NetworkManagerListener;
 import com.example.ozakharc.redditclient.utils.Constants;
@@ -18,14 +18,12 @@ import java.util.List;
 public class MainPresenter extends PresenterBase<MainActivityContract.View>
         implements MainActivityContract.Presenter, NetworkManagerListener {
 
-    private static final String TAG = "MainPresenter";
-
     private List<NewsItem> newsItems;
     private NetworkManager networkManager;
     private int limit = 20;
     private String after = "";
     private NewsItemsContract.Presenter adapterPresenter;
-    private String permalink = "";
+    private RepositoryManager repository= RepositoryManagerImpl.INSTANCE;
 
     @Override
     public void setAdapterPresenter(NewsItemsContract.Presenter adapterPresenter) {
@@ -38,6 +36,7 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
         newsItems = new ArrayList<>();
         this.networkManager = networkManager;
         this.networkManager.setListener(this);
+        this.networkManager.setRepository(repository);
     }
 
     @Override
@@ -51,10 +50,7 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
 
     @Override
     public void onItemClick(int item) {
-        ItemCommentDao dao = App.Companion.getInstance().getAppDb().itemCommentDao();
-        List<ItemComment> comments = dao.searchSavedComments(newsItems.get(item).getPermalink());
-        permalink = newsItems.get(item).getPermalink();
-        if (comments.isEmpty()) {
+        if (!repository.isCommentsInDB(newsItems.get(item).getPermalink())) {
             networkManager.getComments(newsItems.get(item).getPermalink());
             view.showAlert("Downloading comments");
         }
@@ -115,20 +111,6 @@ public class MainPresenter extends PresenterBase<MainActivityContract.View>
             return imageUrl;
         }
         return imageUrl;
-    }
-
-    @Override
-    public void onSuccessCommentsResponse(BaseResponse baseResponse) {
-        List<Child> children = baseResponse.getData().getChildren();
-        if (children.size() > 0) {
-            for (Child child : children) {
-                ItemComment comment = new ItemComment();
-                comment.setComment(child.getChildDta().getBody());
-                comment.setPermalink(permalink);
-                comment.setId(child.getChildDta().getId());
-                App.Companion.getInstance().getAppDb().itemCommentDao().insert(comment);
-            }
-        }
     }
 
     @Override

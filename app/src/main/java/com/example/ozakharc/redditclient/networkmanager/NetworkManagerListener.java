@@ -10,6 +10,4 @@ public interface NetworkManagerListener {
 
     void onNetworkIsUnavailable();
 
-    void onSuccessCommentsResponse(BaseResponse baseResponse);
-
 }

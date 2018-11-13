@@ -1,6 +1,7 @@
 package com.example.ozakharc.redditclient.detailed.binding
 
 import android.app.Dialog
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -13,19 +14,26 @@ import com.example.ozakharc.redditclient.utils.Constants
 import com.squareup.picasso.Picasso
 import android.net.Uri
 import android.widget.ImageView
+import android.widget.TextView
+import com.example.ozakharc.redditclient.model.ItemComment
+import com.example.ozakharc.redditclient.utils.getStringComments
 
 
 class DetailedActivityNew : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityDetailedNewBinding>(this, R.layout.activity_detailed_new)
-        binding.viewModel = ViewModelProviders.of(this, CustomViewModelFactory(
+        val viewModel = ViewModelProviders.of(this, CustomViewModelFactory(
                 intent.extras.get(Constants.NEWS_ITEM) as NewsItem))
                 .get(DetailedViewModel::class.java)
+
+        viewModel.getCommentsFromDB().observe(this, Observer<List<ItemComment>> { comments ->
+            findViewById<TextView>(R.id.tvComments).text = comments?.getStringComments()
+        })
+
+        val binding = DataBindingUtil.setContentView<ActivityDetailedNewBinding>(this, R.layout.activity_detailed_new)
+        binding.viewModel = viewModel
         binding.activity = this
-        binding.setLifecycleOwner(this)
     }
 
     fun onLinkClicked(url: String) {

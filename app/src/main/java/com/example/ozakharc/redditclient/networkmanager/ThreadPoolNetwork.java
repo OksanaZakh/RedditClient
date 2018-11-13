@@ -1,6 +1,7 @@
 package com.example.ozakharc.redditclient.networkmanager;
 
 import com.example.ozakharc.redditclient.InternetConnection;
+import com.example.ozakharc.redditclient.model.RepositoryManager;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -67,6 +68,11 @@ public class ThreadPoolNetwork implements NetworkManager {
 
     @Override
     public void getComments(String url) {
+
+    }
+
+    @Override
+    public void setRepository(RepositoryManager repository) {
 
     }
 }

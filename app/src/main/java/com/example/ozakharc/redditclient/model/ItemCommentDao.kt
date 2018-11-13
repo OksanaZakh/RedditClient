@@ -18,7 +18,7 @@ interface ItemCommentDao {
     @Query("DELETE from itemcomment")
     fun deleteAll()
 
-    @Query("SELECT * from itemcomment WHERE permalink = :permalink")
+    @Query("SELECT * from itemcomment WHERE permalink = :permalink LIMIT 1")
     fun searchSavedComments(permalink: String): List<ItemComment>
 
     @Query("SELECT * from itemcomment WHERE permalink = :permalink")

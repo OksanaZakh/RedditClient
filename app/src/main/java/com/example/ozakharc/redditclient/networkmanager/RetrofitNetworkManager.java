@@ -1,12 +1,12 @@
 package com.example.ozakharc.redditclient.networkmanager;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.ozakharc.redditclient.InternetConnection;
 import com.example.ozakharc.redditclient.api.APIService;
 import com.example.ozakharc.redditclient.api.RetrofitInstance;
 import com.example.ozakharc.redditclient.api.response.BaseResponse;
+import com.example.ozakharc.redditclient.model.RepositoryManager;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class RetrofitNetworkManager implements NetworkManager {
     private NetworkManagerListener networkManagerListener;
     private InternetConnection internetConnection;
     private APIService service;
-    private static final String TAG = "RetrofitNetworkManager";
+    private RepositoryManager repository;
 
     public RetrofitNetworkManager(InternetConnection internetConnection) {
         this.internetConnection=internetConnection;
@@ -55,17 +55,11 @@ public class RetrofitNetworkManager implements NetworkManager {
         }
     }
 
-    @Override
-    public void cleanUp() {
-
-    }
 
     @Override
     public void getComments(String url) {
-        Log.d(TAG, "getComments: ");
         if (internetConnection.isAvailable()) {
             String responseUrl=url+".json";
-            Log.d(TAG, "getComments: "+responseUrl);
             Call<List<BaseResponse>> call = service.getComments(responseUrl);
             call.enqueue(new Callback<List<BaseResponse>>() {
 
@@ -73,24 +67,29 @@ public class RetrofitNetworkManager implements NetworkManager {
                 public void onResponse(@NonNull Call<List<BaseResponse>> call, @NonNull Response<List<BaseResponse>> response) {
                     if (response.isSuccessful()) {
                         if(response.body().size()>1) {
-                            Log.d(TAG, "onResponse: "+response.body().size());
-                            networkManagerListener.onSuccessCommentsResponse(response.body().get(1));
-                            Log.d(TAG, "onResponse: success");
+                            repository.onSuccessCommentsResponse(response.body().get(1), url);
                         }
                     } else {
                         networkManagerListener.onResponseFailure();
-                        Log.d(TAG, "onResponse: failure+");
                     }
                 }
                 @Override
                 public void onFailure(@NonNull Call<List<BaseResponse>> call, @NonNull Throwable t) {
                     networkManagerListener.onResponseFailure();
-                    Log.e(TAG, "onFailure: "+t.getMessage());
-                    Log.d(TAG, "onResponse: failure");
                 }
             });
         } else {
             networkManagerListener.onNetworkIsUnavailable();
         }
+    }
+
+    @Override
+    public void cleanUp() {
+
+    }
+
+    @Override
+    public void setRepository(RepositoryManager repository) {
+        this.repository=repository;
     }
 }

@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 
 import com.example.ozakharc.redditclient.InternetConnection;
+import com.example.ozakharc.redditclient.model.RepositoryManager;
 import com.example.ozakharc.redditclient.utils.Constants;
 
 public class HandleThreadNetwork implements NetworkManager {
@@ -48,6 +49,11 @@ public class HandleThreadNetwork implements NetworkManager {
 
     @Override
     public void getComments(String url) {
+
+    }
+
+    @Override
+    public void setRepository(RepositoryManager repository) {
 
     }
 }
