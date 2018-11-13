@@ -4,10 +4,6 @@ import com.example.ozakharc.redditclient.model.ItemComment
 
 fun List<ItemComment>.getStringComments(): String {
     var result = ""
-    if (this != null) {
-        for (comment in this) {
-            result += "$comment \n"
-        }
-    }
+    for (comment in this) result += "$comment \n"
     return result
 }
